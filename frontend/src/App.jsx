@@ -1,6 +1,8 @@
 // src/App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
+import LoadingScreen from "./components/LoadingScreen";
 
 // Login
 import Login from "./pages/Login";
@@ -63,15 +65,19 @@ import AdminTimetable from "./admin/pages/TimetableManager";
 import AdminAttendance from "./admin/pages/AttendanceAnalytics";
 import AdminAnnouncements from "./admin/pages/Announcements";
 import AdminSettings from "./admin/pages/Settings";
-import { useEffect } from "react";
-
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     document.body.style.filter = "none";
     document.body.style.opacity = "1";
   }, []);
+
+  if (isLoading) {
+    return <LoadingScreen onLoadComplete={() => setIsLoading(false)} />;
+  }
+
   return (
     <Routes>
       {/* Default -> Login */}

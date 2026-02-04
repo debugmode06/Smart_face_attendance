@@ -131,6 +131,9 @@ app.use("/api/wifi-ml", wifiVerifyRoutes);
 import attendanceSessionRoutes from "./routes/attendanceSessionRoutes.js";
 app.use("/api/attendance-session", attendanceSessionRoutes);
 
+// Notifications
+import notificationRoutes from "./routes/notificationRoutes.js";
+app.use("/api/notifications", notificationRoutes);
 
 import aiScenarios from "./games/aiScenarios.js";
 app.use("/api/games/ai", aiScenarios);

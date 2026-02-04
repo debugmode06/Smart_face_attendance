@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, LogOut, Bell, ChevronDown, MessageCircle, Settings, User } from "lucide-react";
 import { useState, useEffect } from "react";
+import NotificationBell from "./NotificationBell";
 
 export default function DashboardLayout({ sidebarItems, title }) {
   const [open, setOpen] = useState(false);
@@ -54,6 +55,29 @@ export default function DashboardLayout({ sidebarItems, title }) {
     navigate("/login");
   };
 
+  const handleNotificationClick = (notification) => {
+    // Handle navigation based on notification type
+    switch (notification.type) {
+      case 'attendance':
+        // Navigate to attendance marking page
+        if (user?.role === 'student') {
+          navigate('/student/mark-attendance');
+        }
+        break;
+      case 'assignment':
+        navigate(`/${user?.role}/assignments`);
+        break;
+      case 'assessment':
+        navigate(`/${user?.role}/assessments`);
+        break;
+      case 'announcement':
+        // Stay on dashboard or go to announcements
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       {/* DESKTOP SIDEBAR */}
@@ -100,10 +124,10 @@ export default function DashboardLayout({ sidebarItems, title }) {
           {/* Right side - Notification + Profile */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Notification Bell */}
-            <button className="relative p-1.5 hover:bg-gray-100 rounded-full transition">
-              <Bell className="w-5 h-5 text-gray-600" />
-              <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+            <NotificationBell 
+              userId={user?._id || user?.id} 
+              onNotificationClick={handleNotificationClick}
+            />
 
             {/* Profile Dropdown */}
             <div className="relative">
