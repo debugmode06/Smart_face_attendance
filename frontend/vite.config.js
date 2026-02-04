@@ -13,9 +13,9 @@ export default defineConfig({
       includeAssets: ["favicon.ico", "robots.txt", "apple-touch-icon.png"],
 
       manifest: {
-        name: "Vidyatra",
-        short_name: "Vidyatra",
-        description: "Smart Curriculum Attendance & AI Learning System",
+        name: "EduPort",
+        short_name: "EduPort",
+        description: "Smart Education Management System",
         theme_color: "#000000",
         background_color: "#ffffff",
         display: "standalone",

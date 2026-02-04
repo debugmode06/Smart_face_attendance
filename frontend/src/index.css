@@ -2,6 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent pinch-to-zoom and double-tap zoom */
+* {
+  touch-action: pan-x pan-y;
+  -ms-touch-action: pan-x pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Allow text selection for inputs */
+input, textarea, select, [contenteditable="true"] {
+  touch-action: manipulation !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+/* Prevent accidental text selection on buttons and links */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Disable iOS text size adjustment */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
