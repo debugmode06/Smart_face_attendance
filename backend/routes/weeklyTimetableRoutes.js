@@ -7,3 +7,4 @@ router.get("/generate-weekly", generateWeeklyTimetable);
 
 export default router;
 
+

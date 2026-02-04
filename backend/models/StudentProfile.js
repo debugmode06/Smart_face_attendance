@@ -61,3 +61,4 @@ const StudentProfileSchema = new mongoose.Schema({
 
 export default mongoose.model("StudentProfile", StudentProfileSchema);
 
+

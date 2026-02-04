@@ -220,3 +220,4 @@ export const getFacultyAttendanceForDay = async (req, res) => {
   }
 };
 
+

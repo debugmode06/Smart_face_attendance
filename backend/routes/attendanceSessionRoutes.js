@@ -42,3 +42,4 @@ router.post("/student/mark", protect, student, markAttendance);
 
 export default router;
 
+

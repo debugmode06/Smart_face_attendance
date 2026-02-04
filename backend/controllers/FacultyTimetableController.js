@@ -231,3 +231,4 @@ export const getFacultyWeeklyTimetable = async (req, res) => {
   }
 };
 
+

@@ -11,3 +11,4 @@ const GameHistorySchema = new mongoose.Schema({
 
 export default mongoose.model("GameHistory", GameHistorySchema);
 
+

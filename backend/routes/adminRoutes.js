@@ -14,7 +14,7 @@ import {
   getClassTimetable,
   saveClassTimetable,
   duplicateTimetable,
-} from "../controllers/adminTimetableController.js";
+} from "../controllers/AdminTimetableController.js";
 
 import { getDashboardStats } from "../controllers/adminDashboardController.js";
 
@@ -179,4 +179,6 @@ router.delete(
 // router.get("/users", protect, requireRole("admin"), ...)
 
 export default router;
+
+
 

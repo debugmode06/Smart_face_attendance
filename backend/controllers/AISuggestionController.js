@@ -284,3 +284,4 @@ export const getAISuggestions = async (req, res) => {
   }
 };
 
+

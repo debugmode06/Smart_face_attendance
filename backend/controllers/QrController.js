@@ -29,3 +29,4 @@ export const getCurrentQR = async (req, res) => {
   }
 };
 
+

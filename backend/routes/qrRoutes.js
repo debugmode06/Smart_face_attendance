@@ -7,3 +7,4 @@ router.get("/current", getCurrentQR);
 
 export default router;
 
+

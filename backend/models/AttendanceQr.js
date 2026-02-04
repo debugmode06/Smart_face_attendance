@@ -7,3 +7,4 @@ const AttendanceQRSchema = new mongoose.Schema({
 
 export default mongoose.model("AttendanceQR", AttendanceQRSchema);
 
+

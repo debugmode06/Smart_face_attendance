@@ -81,3 +81,4 @@ export const deleteFaculty = async (req, res) => {
   }
 };
 
+

@@ -16,3 +16,4 @@ router.get("/dashboard", protect, getFacultyDashboard);
 
 export default router;
 
+

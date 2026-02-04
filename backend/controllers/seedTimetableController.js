@@ -55,3 +55,4 @@ export const seedWeeklyTimetable = async (req, res) => {
   }
 };
 
+

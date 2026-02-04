@@ -47,3 +47,4 @@ router.get("/attendance/day", protectFaculty, getFacultyAttendanceForDay);
 
 export default router;
 
+

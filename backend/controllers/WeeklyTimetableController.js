@@ -56,3 +56,4 @@ export const generateWeeklyTimetable = async (req, res) => {
   }
 };
 
+

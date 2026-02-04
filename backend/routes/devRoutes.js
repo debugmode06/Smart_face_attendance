@@ -8,3 +8,4 @@ router.get("/seed-timetable", seedWeeklyTimetable);
 
 export default router;
 
+

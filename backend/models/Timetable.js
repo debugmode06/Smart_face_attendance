@@ -33,3 +33,4 @@ const timetableSchema = new mongoose.Schema({
 
 export default mongoose.model("Timetable", timetableSchema);
 
+

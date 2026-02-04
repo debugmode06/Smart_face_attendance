@@ -28,3 +28,4 @@ const classTimetableSchema = new mongoose.Schema({
 
 export default mongoose.model("ClassTimetable", classTimetableSchema);
 
+
