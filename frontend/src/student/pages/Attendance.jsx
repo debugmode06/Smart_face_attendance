@@ -84,7 +84,7 @@ export default function Attendance() {
     const fetchRoomId = async () => {
       if (!token) return;
       
-      const API_BASE = "https://smart-attendance-g1hv.onrender.com";
+      const API_BASE = "https://smart-face-attendance-mfkt.onrender.com";
       
       try {
         const controller = new AbortController();
@@ -149,7 +149,7 @@ export default function Attendance() {
       if (!token) return;
       
       try {
-        const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/student/active", {
+        const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/student/active", {
           headers: { Authorization: "Bearer " + token },
         });
         
@@ -301,7 +301,7 @@ export default function Attendance() {
         clientIP: null,
       };
 
-      const API_BASE = "https://smart-attendance-g1hv.onrender.com";
+      const API_BASE = "https://smart-face-attendance-mfkt.onrender.com";
 
       // Add timeout to prevent hanging
       const controller = new AbortController();
@@ -989,4 +989,5 @@ export default function Attendance() {
     </div>
   );
 }
+
 

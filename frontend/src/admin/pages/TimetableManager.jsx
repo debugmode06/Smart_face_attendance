@@ -36,7 +36,7 @@ export default function TimetableManager() {
 
   const loadClasses = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/classes", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/classes", {
         headers: { Authorization: "Bearer " + token },
       });
       const data = await res.json();
@@ -48,7 +48,7 @@ export default function TimetableManager() {
 
   const loadMeta = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/timetable/meta", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/timetable/meta", {
         headers: { Authorization: "Bearer " + token },
       });
       const data = await res.json();
@@ -83,7 +83,7 @@ export default function TimetableManager() {
 
     try {
       const res = await fetch(
-        `https://smart-attendance-g1hv.onrender.com/api/admin/timetable/${selectedClass}`,
+        `https://smart-face-attendance-mfkt.onrender.com/api/admin/timetable/${selectedClass}`,
         { headers: { Authorization: "Bearer " + token } }
       );
 
@@ -198,7 +198,7 @@ export default function TimetableManager() {
     };
 
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/timetable/save", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/timetable/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -239,7 +239,7 @@ export default function TimetableManager() {
 
     try {
       const res = await fetch(
-        "https://smart-attendance-g1hv.onrender.com/api/admin/timetable/duplicate",
+        "https://smart-face-attendance-mfkt.onrender.com/api/admin/timetable/duplicate",
         {
           method: "POST",
           headers: {
@@ -640,4 +640,5 @@ export default function TimetableManager() {
     </div>
   );
 }
+
 

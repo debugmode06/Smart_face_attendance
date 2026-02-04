@@ -22,7 +22,7 @@ export default function AttemptAssessment() {
     async function fetchAssessment() {
       try {
        const res = await axios.get(
-  `https://smart-attendance-g1hv.onrender.com/api/student-assessments/view/${id}`,
+  `https://smart-face-attendance-mfkt.onrender.com/api/student-assessments/view/${id}`,
   { headers: { Authorization: "Bearer " + token } }
 );
 
@@ -79,7 +79,7 @@ export default function AttemptAssessment() {
 
 
       await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/student/assessment/submit",
+        "https://smart-face-attendance-mfkt.onrender.com/api/student/assessment/submit",
         payload,
         { headers: { Authorization: "Bearer " + token } }
       );
@@ -225,4 +225,5 @@ export default function AttemptAssessment() {
     </div>
   );
 }
+
 

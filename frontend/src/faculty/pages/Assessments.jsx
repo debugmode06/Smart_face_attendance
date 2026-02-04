@@ -131,7 +131,7 @@ export default function Assessments() {
   async function fetchPast() {
     try {
       const res = await axios.get(
-        `https://smart-attendance-g1hv.onrender.com/api/faculty/assessments/all/${facultyId}`,
+        `https://smart-face-attendance-mfkt.onrender.com/api/faculty/assessments/all/${facultyId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setPast(res.data.assessments);
@@ -179,7 +179,7 @@ export default function Assessments() {
     };
 
     await axios.post(
-      `https://smart-attendance-g1hv.onrender.com/api/faculty/assessments/create`,
+      `https://smart-face-attendance-mfkt.onrender.com/api/faculty/assessments/create`,
       payload,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -336,4 +336,5 @@ export default function Assessments() {
     </div>
   );
 }
+
 

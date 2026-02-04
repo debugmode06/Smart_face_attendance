@@ -75,7 +75,7 @@ export default function AiAssistant() {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          "https://smart-attendance-g1hv.onrender.com/api/student/ai-suggestions",
+          "https://smart-face-attendance-mfkt.onrender.com/api/student/ai-suggestions",
           {
             headers: { Authorization: "Bearer " + token },
           }
@@ -103,7 +103,7 @@ export default function AiAssistant() {
 
     try {
       const res = await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/student/chatbot",
+        "https://smart-face-attendance-mfkt.onrender.com/api/student/chatbot",
         { messages: [...chatMessages, userMsg] }
       );
 
@@ -198,7 +198,7 @@ function GamesView({ isFreePeriod, freeLoading }) {
     setGames(shuffleArray(ALL_GAMES));
 
     axios
-      .get("https://smart-attendance-g1hv.onrender.com/api/student/xp", {
+      .get("https://smart-face-attendance-mfkt.onrender.com/api/student/xp", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => {
@@ -237,7 +237,7 @@ function GamesView({ isFreePeriod, freeLoading }) {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/games/generate-question",
+        "https://smart-face-attendance-mfkt.onrender.com/api/games/generate-question",
         { gameId: game.id },
         { headers: { Authorization: "Bearer " + token } }
       );
@@ -260,7 +260,7 @@ function GamesView({ isFreePeriod, freeLoading }) {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/student/gain-xp",
+        "https://smart-face-attendance-mfkt.onrender.com/api/student/gain-xp",
         { gameId: activeGame.id },
         { headers: { Authorization: "Bearer " + token } }
       );
@@ -503,4 +503,5 @@ function AiMentorChatView({
     </div>
   );
 }
+
 

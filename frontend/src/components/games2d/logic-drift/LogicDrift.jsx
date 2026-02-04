@@ -15,7 +15,7 @@ export default function LogicDrift({ onExit }) {
     let mounted = true;
     const loadAI = async () => {
       try {
-        const res = await axios.post("https://smart-attendance-g1hv.onrender.com/api/games/ai/logic-drift");
+        const res = await axios.post("https://smart-face-attendance-mfkt.onrender.com/api/games/ai/logic-drift");
         if (mounted) {
           setScenarios(res.data);
         }
@@ -91,7 +91,7 @@ export default function LogicDrift({ onExit }) {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/student/gain-xp",
+        "https://smart-face-attendance-mfkt.onrender.com/api/student/gain-xp",
         { gameId: "logic-drift" },
         {
           headers: {
@@ -193,4 +193,5 @@ export default function LogicDrift({ onExit }) {
     </div>
   );
 }
+
 

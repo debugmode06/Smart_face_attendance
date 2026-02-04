@@ -10,7 +10,7 @@ export default function LeaveApproval() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        `https://smart-attendance-g1hv.onrender.com/api/leave/faculty/${facultyId}`
+        `https://smart-face-attendance-mfkt.onrender.com/api/leave/faculty/${facultyId}`
       );
       setRequests(res.data);
     } catch (err) {
@@ -24,7 +24,7 @@ export default function LeaveApproval() {
 
   const approveRequest = async (id) => {
     try {
-      await axios.post(`https://smart-attendance-g1hv.onrender.com/api/leave/approve/${id}`);
+      await axios.post(`https://smart-face-attendance-mfkt.onrender.com/api/leave/approve/${id}`);
       fetchRequests();
     } catch (err) {
       console.error(err);
@@ -35,7 +35,7 @@ export default function LeaveApproval() {
   const rejectRequest = async () => {
     try {
       await axios.post(
-        `https://smart-attendance-g1hv.onrender.com/api/leave/reject/${rejectModal.id}`,
+        `https://smart-face-attendance-mfkt.onrender.com/api/leave/reject/${rejectModal.id}`,
         { reason: rejectReason }
       );
       setRejectModal({ open: false, id: null });
@@ -96,7 +96,7 @@ export default function LeaveApproval() {
                   {req.attachmentUrl ? (
                     <a
                       className="text-blue-600 underline"
-                      href={`https://smart-attendance-g1hv.onrender.com${req.attachmentUrl}`}
+                      href={`https://smart-face-attendance-mfkt.onrender.com${req.attachmentUrl}`}
                       target="_blank"
                     >
                       View
@@ -182,5 +182,6 @@ export default function LeaveApproval() {
     </div>
   );
 }
+
 
 

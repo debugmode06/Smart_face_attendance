@@ -21,7 +21,7 @@ export default function OrbitDefensePhaser({ onExit }) {
         const token = localStorage.getItem("token");
 
         const res = await axios.post(
-          "https://smart-attendance-g1hv.onrender.com/api/games/ai/logic-drift",
+          "https://smart-face-attendance-mfkt.onrender.com/api/games/ai/logic-drift",
           {},
           {
             headers: {
@@ -297,4 +297,5 @@ export default function OrbitDefensePhaser({ onExit }) {
     </div>
   );
 }
+
 

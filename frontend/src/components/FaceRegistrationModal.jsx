@@ -53,7 +53,7 @@ export default function FaceRegistrationModal({ open, onClose }) {
         formData.append("image", blob, "face.jpg");
 
         const res = await fetch(
-          "https://smart-attendance-g1hv.onrender.com/api/student/face/register",
+          "https://smart-face-attendance-mfkt.onrender.com/api/student/face/register",
           {
             method: "POST",
             headers: {
@@ -125,4 +125,5 @@ export default function FaceRegistrationModal({ open, onClose }) {
     </div>
   );
 }
+
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://smart-attendance-g1hv.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://smart-face-attendance-mfkt.onrender.com/api',
 });
 
 // ADD TOKEN TO EVERY REQUEST
@@ -14,4 +14,5 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+
 

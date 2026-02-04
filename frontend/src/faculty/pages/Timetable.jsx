@@ -46,7 +46,7 @@ export default function FacultyTimetable() {
       return;
     }
 
-    fetch("https://smart-attendance-g1hv.onrender.com/api/faculty/timetable/weekly", {
+    fetch("https://smart-face-attendance-mfkt.onrender.com/api/faculty/timetable/weekly", {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => res.json())
@@ -59,7 +59,7 @@ export default function FacultyTimetable() {
       })
       .catch(() => setError("Failed to load timetable"));
 
-    fetch("https://smart-attendance-g1hv.onrender.com/api/faculty/free-periods", {
+    fetch("https://smart-face-attendance-mfkt.onrender.com/api/faculty/free-periods", {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => res.json())
@@ -84,7 +84,7 @@ export default function FacultyTimetable() {
   const currentPeriodIndex = getCurrentPeriod();
 
   const markAbsent = (period) => {
-    fetch("https://smart-attendance-g1hv.onrender.com/api/faculty/timetable/mark-absent", {
+    fetch("https://smart-face-attendance-mfkt.onrender.com/api/faculty/timetable/mark-absent", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
       body: JSON.stringify({ period }),
@@ -97,7 +97,7 @@ export default function FacultyTimetable() {
   };
 
   const attendFreePeriod = (period) => {
-    fetch("https://smart-attendance-g1hv.onrender.com/api/faculty/timetable/claim", {
+    fetch("https://smart-face-attendance-mfkt.onrender.com/api/faculty/timetable/claim", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
       body: JSON.stringify({ period }),
@@ -281,5 +281,6 @@ export default function FacultyTimetable() {
     </div>
   );
 }
+
 
 

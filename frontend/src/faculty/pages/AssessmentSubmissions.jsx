@@ -17,7 +17,7 @@ export default function AssessmentSubmissions() {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `https://smart-attendance-g1hv.onrender.com/api/faculty/assessments/all/${facultyId}`,
+          `https://smart-face-attendance-mfkt.onrender.com/api/faculty/assessments/all/${facultyId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -39,7 +39,7 @@ export default function AssessmentSubmissions() {
 
     try {
       const res = await axios.get(
-        `https://smart-attendance-g1hv.onrender.com/api/faculty/assessments/${ass._id}/submissions`,
+        `https://smart-face-attendance-mfkt.onrender.com/api/faculty/assessments/${ass._id}/submissions`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -58,7 +58,7 @@ export default function AssessmentSubmissions() {
     const total = Object.values(detailedMarks).reduce((a, b) => a + b, 0);
 
     await axios.post(
-      `https://smart-attendance-g1hv.onrender.com/api/faculty/assessments/${submissionId}/grade`,
+      `https://smart-face-attendance-mfkt.onrender.com/api/faculty/assessments/${submissionId}/grade`,
       {
         detailedMarks,
         totalMarks: total,
@@ -214,5 +214,6 @@ const studentAnswer = answerObj ? answerObj.answer : "";
     </div>
   );
 }
+
 
 

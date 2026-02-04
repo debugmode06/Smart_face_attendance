@@ -19,7 +19,7 @@ export default function StudyMaterial() {
     try {
       setLoading(true);
       const res = await fetch(
-        "https://smart-attendance-g1hv.onrender.com/api/student/personal-material",
+        "https://smart-face-attendance-mfkt.onrender.com/api/student/personal-material",
         {
           headers: { Authorization: "Bearer " + token },
         }
@@ -111,4 +111,5 @@ export default function StudyMaterial() {
     </div>
   );
 }
+
 

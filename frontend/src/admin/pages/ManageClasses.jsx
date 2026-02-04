@@ -19,7 +19,7 @@ export default function AdminClasses() {
   useEffect(() => {
     const loadClasses = async () => {
       try {
-        const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/classes", {
+        const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/classes", {
           headers: { Authorization: "Bearer " + token },
         });
 
@@ -191,4 +191,5 @@ export default function AdminClasses() {
     </div>
   );
 }
+
 

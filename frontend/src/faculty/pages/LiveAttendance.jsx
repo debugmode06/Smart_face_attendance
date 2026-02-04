@@ -38,7 +38,7 @@ export default function LiveAttendance() {
   // Fetch faculty profile for auto-population
   const fetchFacultyProfile = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/faculty/profile", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/faculty/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -90,7 +90,7 @@ export default function LiveAttendance() {
   // Fetch active session
   const fetchActiveSession = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/faculty/active", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/faculty/active", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -113,7 +113,7 @@ export default function LiveAttendance() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/faculty/start", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/faculty/start", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -154,7 +154,7 @@ export default function LiveAttendance() {
     }
 
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/faculty/extend-time", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/faculty/extend-time", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -189,7 +189,7 @@ export default function LiveAttendance() {
     if (!confirmed) return;
 
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/faculty/confirm", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/faculty/confirm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export default function LiveAttendance() {
   const handleDownloadExcel = async () => {
     try {
       const res = await fetch(
-        `https://smart-attendance-g1hv.onrender.com/api/attendance-session/faculty/excel/${activeSession._id}`,
+        `https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/faculty/excel/${activeSession._id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -631,4 +631,5 @@ export default function LiveAttendance() {
     </div>
   );
 }
+
 

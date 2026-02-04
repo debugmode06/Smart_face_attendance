@@ -33,7 +33,7 @@ export default function ManageStudents() {
 
   const loadStudents = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/students", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/students", {
         headers: { Authorization: "Bearer " + token },
       });
       const data = await res.json();
@@ -94,8 +94,8 @@ export default function ManageStudents() {
 
     const method = isEdit ? "PUT" : "POST";
     const url = isEdit
-      ? `https://smart-attendance-g1hv.onrender.com/api/admin/students/${form.id}`
-      : "https://smart-attendance-g1hv.onrender.com/api/admin/students";
+      ? `https://smart-face-attendance-mfkt.onrender.com/api/admin/students/${form.id}`
+      : "https://smart-face-attendance-mfkt.onrender.com/api/admin/students";
 
     const payload = {
       ...form,
@@ -127,7 +127,7 @@ export default function ManageStudents() {
     if (!window.confirm("Delete this student?")) return;
 
     try {
-      await fetch(`https://smart-attendance-g1hv.onrender.com/api/admin/students/${id}`, {
+      await fetch(`https://smart-face-attendance-mfkt.onrender.com/api/admin/students/${id}`, {
         method: "DELETE",
         headers: { Authorization: "Bearer " + token },
       });
@@ -389,4 +389,5 @@ export default function ManageStudents() {
     </div>
   );
 }
+
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_BASE = "https://smart-attendance-g1hv.onrender.com/api/communication";
+const API_BASE = "https://smart-face-attendance-mfkt.onrender.com/api/communication";
 
 export default function Communication() {
   // ✔ Fetch correct faculty ID from localStorage
@@ -18,7 +18,7 @@ export default function Communication() {
 
   // ====================== LOAD STUDENTS ======================
   useEffect(() => {
-    fetch("https://smart-attendance-g1hv.onrender.com/api/student")
+    fetch("https://smart-face-attendance-mfkt.onrender.com/api/student")
       .then((res) => res.json())
       .then((data) => setStudents(data.students))
       .catch(() => console.log("Error fetching students"));
@@ -204,4 +204,5 @@ export default function Communication() {
     </div>
   );
 }
+
 

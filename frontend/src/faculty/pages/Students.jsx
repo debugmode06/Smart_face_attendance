@@ -18,7 +18,7 @@ export default function CollegeStudents() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get("https://smart-attendance-g1hv.onrender.com/api/student/all/full");
+        const res = await axios.get("https://smart-face-attendance-mfkt.onrender.com/api/student/all/full");
         setStudents(res.data);
         setLoading(false);
       } catch (err) {
@@ -272,5 +272,6 @@ export default function CollegeStudents() {
     </div>
   );
 }
+
 
 

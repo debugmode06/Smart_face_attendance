@@ -53,7 +53,7 @@ export default function FacultyAttendance() {
   // fetch QR
   const fetchQR = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/student/qr/current");
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/student/qr/current");
       const data = await res.json();
       setQrCode(data.qrCode);
       setExpiresIn(data.expiresIn);
@@ -64,7 +64,7 @@ export default function FacultyAttendance() {
   const fetchAttendanceData = async () => {
     try {
       const res = await fetch(
-        "https://smart-attendance-g1hv.onrender.com/api/faculty/attendance/day",
+        "https://smart-face-attendance-mfkt.onrender.com/api/faculty/attendance/day",
         {
           headers: { Authorization: "Bearer " + token },
         }
@@ -506,4 +506,5 @@ export default function FacultyAttendance() {
     </Box>
   );
 }
+
 

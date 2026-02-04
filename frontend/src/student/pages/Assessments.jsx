@@ -16,7 +16,7 @@ export default function StudentAssessments() {
   async function load() {
     try {
      const res = await axios.get(
-  `https://smart-attendance-g1hv.onrender.com/api/student-assessments/${studentId}`,
+  `https://smart-face-attendance-mfkt.onrender.com/api/student-assessments/${studentId}`,
   { headers: { Authorization: `Bearer ${token}` } }
 );
 
@@ -122,4 +122,5 @@ export default function StudentAssessments() {
     </div>
   );
 }
+
 

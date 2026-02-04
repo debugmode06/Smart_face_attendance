@@ -24,7 +24,7 @@ export default function AdminDashboard() {
 
   const loadDashboard = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/dashboard", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/dashboard", {
         headers: { Authorization: "Bearer " + token },
       });
 
@@ -162,4 +162,5 @@ function StatCard({ icon, title, value, gradient, bgGradient }) {
     </div>
   );
 }
+
 

@@ -100,7 +100,7 @@ export default function FacultyProfile() {
         if (!facultyId) return setLoadingProfile(false);
 
         const res = await axios.get(
-          `https://smart-attendance-g1hv.onrender.com/api/faculty/profile/${facultyId}`
+          `https://smart-face-attendance-mfkt.onrender.com/api/faculty/profile/${facultyId}`
         );
 
         const savedProfile = res.data || {};
@@ -144,7 +144,7 @@ export default function FacultyProfile() {
     try {
       setSaving(true);
 
-      await axios.post("https://smart-attendance-g1hv.onrender.com/api/faculty/profile/save", {
+      await axios.post("https://smart-face-attendance-mfkt.onrender.com/api/faculty/profile/save", {
         facultyId,
         data: facultyDetails,
       });
@@ -163,7 +163,7 @@ export default function FacultyProfile() {
       setLoadingResume(true);
 
       const res = await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/resume/generate",
+        "https://smart-face-attendance-mfkt.onrender.com/api/resume/generate",
         { facultyId, ...facultyDetails }
       );
 
@@ -421,5 +421,6 @@ function Achievements({ data, updateField }) {
     </div>
   );
 }
+
 
 

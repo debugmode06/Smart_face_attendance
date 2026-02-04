@@ -16,7 +16,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://smart-attendance-g1hv.onrender.com/api/auth/login", {
+      const response = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -200,4 +200,5 @@ export default function Login() {
     </div>
   );
 }
+
 

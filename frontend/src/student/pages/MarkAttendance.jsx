@@ -33,7 +33,7 @@ export default function MarkAttendance() {
   // Fetch active session
   const fetchActiveSession = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/student/active", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/student/active", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -81,7 +81,7 @@ export default function MarkAttendance() {
 
     try {
       // Call your WiFi verification API
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/wifi-ml/verify", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/wifi-ml/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export default function MarkAttendance() {
     setError("");
 
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/attendance-session/student/mark", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/attendance-session/student/mark", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -523,4 +523,5 @@ export default function MarkAttendance() {
     </div>
   );
 }
+
 

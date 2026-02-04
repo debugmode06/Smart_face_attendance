@@ -29,7 +29,7 @@ function CreateAssignmentModal({ isOpen, onClose, refresh }) {
       if (file) formData.append("file", file);
 
       await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/faculty/assignments/create",
+        "https://smart-face-attendance-mfkt.onrender.com/api/faculty/assignments/create",
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -143,7 +143,7 @@ export default function Assignments() {
   async function fetchAssignments() {
     try {
       const res = await axios.get(
-        `https://smart-attendance-g1hv.onrender.com/api/faculty/assignments/all/${facultyId}`,
+        `https://smart-face-attendance-mfkt.onrender.com/api/faculty/assignments/all/${facultyId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setAssignments(res.data.assignments || []);
@@ -220,5 +220,6 @@ export default function Assignments() {
     </div>
   );
 }
+
 
 

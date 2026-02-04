@@ -33,7 +33,7 @@ export default function StudentLeaveRequestModalPage() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        `https://smart-attendance-g1hv.onrender.com/api/leave/student/${studentId}`
+        `https://smart-face-attendance-mfkt.onrender.com/api/leave/student/${studentId}`
       );
       setRequests(res.data);
     } catch (err) {
@@ -87,7 +87,7 @@ export default function StudentLeaveRequestModalPage() {
     if (formData.file) fd.append("attachment", formData.file);
 
     try {
-      await axios.post("https://smart-attendance-g1hv.onrender.com/api/leave/create", fd, {
+      await axios.post("https://smart-face-attendance-mfkt.onrender.com/api/leave/create", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -336,7 +336,7 @@ export default function StudentLeaveRequestModalPage() {
                   {/* Attachment */}
                   {req.attachmentUrl && (
                     <a
-                      href={`https://smart-attendance-g1hv.onrender.com${req.attachmentUrl}`}
+                      href={`https://smart-face-attendance-mfkt.onrender.com${req.attachmentUrl}`}
                       className="text-blue-600 text-sm underline"
                       target="_blank"
                     >
@@ -364,4 +364,5 @@ export default function StudentLeaveRequestModalPage() {
     </div>
   );
 }
+
 

@@ -18,7 +18,7 @@ export default function StudentAssignments() {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `https://smart-attendance-g1hv.onrender.com/api/student/assignments/${studentId}`
+          `https://smart-face-attendance-mfkt.onrender.com/api/student/assignments/${studentId}`
         );
 
         const assignmentsData = res.data || [];
@@ -33,7 +33,7 @@ export default function StudentAssignments() {
         for (let fId of facultyIds) {
           if (!fId) continue;
           const fRes = await axios.get(
-            `https://smart-attendance-g1hv.onrender.com/api/faculty/profile/${fId}`
+            `https://smart-face-attendance-mfkt.onrender.com/api/faculty/profile/${fId}`
           );
           map[fId] = fRes.data.subject;
         }
@@ -206,7 +206,7 @@ export default function StudentAssignments() {
 
               {a.fileUrl && (
                 <a
-                  href={`https://smart-attendance-g1hv.onrender.com${a.fileUrl}`}
+                  href={`https://smart-face-attendance-mfkt.onrender.com${a.fileUrl}`}
                   target="_blank"
                   rel="noreferrer"
                   className="mt-4 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors"
@@ -221,4 +221,5 @@ export default function StudentAssignments() {
     </div>
   );
 }
+
 

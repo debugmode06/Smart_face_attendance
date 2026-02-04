@@ -15,7 +15,7 @@ export default function AdminSettings() {
 
   const loadFingerprints = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/wifi-fingerprints", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/wifi-fingerprints", {
         headers: { Authorization: "Bearer " + token },
       });
       const data = await res.json();
@@ -40,7 +40,7 @@ export default function AdminSettings() {
         try {
           const jsonData = JSON.parse(e.target.result);
           
-          const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/wifi-fingerprints/upload", {
+          const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/wifi-fingerprints/upload", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export default function AdminSettings() {
     if (!window.confirm(`Delete fingerprint for ${roomId}?`)) return;
 
     try {
-      const res = await fetch(`https://smart-attendance-g1hv.onrender.com/api/admin/wifi-fingerprints/${roomId}`, {
+      const res = await fetch(`https://smart-face-attendance-mfkt.onrender.com/api/admin/wifi-fingerprints/${roomId}`, {
         method: "DELETE",
         headers: { Authorization: "Bearer " + token },
       });
@@ -266,4 +266,5 @@ export default function AdminSettings() {
     </div>
   );
 }
+
 

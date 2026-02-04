@@ -7,7 +7,7 @@ export default function LiveQR() {
 
   useEffect(() => {
     const fetchQR = async () => {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/student/qr/current");
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/student/qr/current");
       const data = await res.json();
       setQrCode(data.qrCode);
       setExpiresIn(data.expiresIn);
@@ -37,4 +37,5 @@ export default function LiveQR() {
     </div>
   );
 }
+
 

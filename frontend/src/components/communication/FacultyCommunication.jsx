@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_BASE = "https://smart-attendance-g1hv.onrender.com/api/communication";
+const API_BASE = "https://smart-face-attendance-mfkt.onrender.com/api/communication";
 
 export default function FacultyCommunication({ facultyId }) {
   const [activeTab, setActiveTab] = useState("broadcast");
@@ -213,4 +213,5 @@ export default function FacultyCommunication({ facultyId }) {
     </div>
   );
 }
+
 

@@ -24,7 +24,7 @@ export default function Schedule() {
 
       try {
         const response = await fetch(
-          `https://smart-attendance-g1hv.onrender.com/api/student/timetable/day?day=${dayName}`,
+          `https://smart-face-attendance-mfkt.onrender.com/api/student/timetable/day?day=${dayName}`,
           {
             headers: { Authorization: "Bearer " + token },
           }
@@ -252,4 +252,5 @@ export default function Schedule() {
     </div>
   );
 }
+
 

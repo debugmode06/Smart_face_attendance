@@ -37,7 +37,7 @@ export default function ManageFaculty() {
 
   const loadFaculty = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/faculty", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/faculty", {
         headers: { Authorization: "Bearer " + token },
       });
 
@@ -52,7 +52,7 @@ export default function ManageFaculty() {
 
   const loadClasses = async () => {
     try {
-      const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/admin/classes", {
+      const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/admin/classes", {
         headers: { Authorization: "Bearer " + token },
       });
       const data = await res.json();
@@ -112,8 +112,8 @@ export default function ManageFaculty() {
 
     const method = isEdit ? "PUT" : "POST";
     const url = isEdit
-      ? `https://smart-attendance-g1hv.onrender.com/api/admin/faculty/${form.id}`
-      : "https://smart-attendance-g1hv.onrender.com/api/admin/faculty";
+      ? `https://smart-face-attendance-mfkt.onrender.com/api/admin/faculty/${form.id}`
+      : "https://smart-face-attendance-mfkt.onrender.com/api/admin/faculty";
 
     try {
       const res = await fetch(url, {
@@ -138,7 +138,7 @@ export default function ManageFaculty() {
     if (!window.confirm("Delete this faculty?")) return;
 
     try {
-      await fetch(`https://smart-attendance-g1hv.onrender.com/api/admin/faculty/${id}`, {
+      await fetch(`https://smart-face-attendance-mfkt.onrender.com/api/admin/faculty/${id}`, {
         method: "DELETE",
         headers: { Authorization: "Bearer " + token },
       });
@@ -406,4 +406,5 @@ export default function ManageFaculty() {
     </div>
   );
 }
+
 

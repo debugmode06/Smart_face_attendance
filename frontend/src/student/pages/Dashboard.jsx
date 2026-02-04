@@ -80,7 +80,7 @@ export default function StudentDashboard() {
     try {
       setSavingInterests(true);
       const res = await fetch(
-        "https://smart-attendance-g1hv.onrender.com/api/student/save-interests",
+        "https://smart-face-attendance-mfkt.onrender.com/api/student/save-interests",
         {
           method: "POST",
           headers: {
@@ -119,10 +119,10 @@ export default function StudentDashboard() {
     async function loadData() {
       try {
         const [dashRes, aiRes] = await Promise.all([
-          fetch("https://smart-attendance-g1hv.onrender.com/api/student/dashboard", {
+          fetch("https://smart-face-attendance-mfkt.onrender.com/api/student/dashboard", {
             headers: { Authorization: "Bearer " + token },
           }),
-          fetch("https://smart-attendance-g1hv.onrender.com/api/student/ai-suggestions", {
+          fetch("https://smart-face-attendance-mfkt.onrender.com/api/student/ai-suggestions", {
             headers: { Authorization: "Bearer " + token },
           }),
         ]);
@@ -852,7 +852,7 @@ function XPProgress() {
     async function loadXP() {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("https://smart-attendance-g1hv.onrender.com/api/student/xp", {
+        const res = await fetch("https://smart-face-attendance-mfkt.onrender.com/api/student/xp", {
           headers: { Authorization: "Bearer " + token },
         });
         const data = await res.json();
@@ -915,4 +915,5 @@ function XPProgress() {
     </div>
   );
 }
+
 

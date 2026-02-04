@@ -37,6 +37,7 @@ export default defineConfig({
       workbox: {
         navigateFallback: "/index.html",
         globPatterns: ["**/*.{js,css,html,png,svg}"],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB limit for mobile app
       },
     }),
   ],

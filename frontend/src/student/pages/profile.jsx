@@ -133,7 +133,7 @@ export default function StudentProfile() {
         }
 
         const res = await axios.get(
-          `https://smart-attendance-g1hv.onrender.com/api/student/profile/${studentId}`
+          `https://smart-face-attendance-mfkt.onrender.com/api/student/profile/${studentId}`
         );
 
         const savedProfile = res.data || {};
@@ -185,7 +185,7 @@ export default function StudentProfile() {
 
       setSaving(true);
 
-      await axios.post("https://smart-attendance-g1hv.onrender.com/api/student/profile/save", {
+      await axios.post("https://smart-face-attendance-mfkt.onrender.com/api/student/profile/save", {
         studentId,
         data: studentDetails,
       });
@@ -206,7 +206,7 @@ export default function StudentProfile() {
     try {
       setLoadingResume(true);
       const res = await axios.post(
-        "https://smart-attendance-g1hv.onrender.com/api/resume/generate",
+        "https://smart-face-attendance-mfkt.onrender.com/api/resume/generate",
         { studentId, ...studentDetails }
       );
 
@@ -949,4 +949,5 @@ function Achievements({ data, openModal }) {
     </div>
   );
 }
+
 

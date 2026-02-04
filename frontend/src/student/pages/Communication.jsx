@@ -13,7 +13,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-const API_BASE = "https://smart-attendance-g1hv.onrender.com/api/communication";
+const API_BASE = "https://smart-face-attendance-mfkt.onrender.com/api/communication";
 
 export default function Communication() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -352,4 +352,5 @@ export default function Communication() {
     </div>
   );
 }
+
 

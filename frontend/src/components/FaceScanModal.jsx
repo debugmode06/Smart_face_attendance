@@ -77,7 +77,7 @@ export default function FaceScanModal({ onVerified, onClose }) {
           formData.append("image", blob, "face.jpg");
 
           const res = await fetch(
-            "https://smart-attendance-g1hv.onrender.com/api/student/attendance/face-scan",
+            "https://smart-face-attendance-mfkt.onrender.com/api/student/attendance/face-scan",
             {
               method: "POST",
               headers: {
@@ -311,4 +311,5 @@ export default function FaceScanModal({ onVerified, onClose }) {
     </div>
   );
 }
+
 
