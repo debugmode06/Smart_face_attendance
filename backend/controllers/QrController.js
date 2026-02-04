@@ -1,5 +1,5 @@
 import QRCode from "qrcode";
-import AttendanceQR from "../models/AttendanceQR.js";
+import AttendanceQR from "../models/AttendanceQr.js";
 
 // Generate New QR every time (for demo)
 export const getCurrentQR = async (req, res) => {
