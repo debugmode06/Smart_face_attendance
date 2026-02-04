@@ -41,3 +41,4 @@ const assessmentSchema = new mongoose.Schema(
 
 const Assessment = mongoose.model("Assessment", assessmentSchema);
 export default Assessment;
+

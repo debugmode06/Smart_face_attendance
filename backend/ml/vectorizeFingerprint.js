@@ -76,3 +76,4 @@ export function vectorizeDocument(fingerprintDoc, allBSSIDs) {
   return vectorizeFingerprint(fingerprintDoc.fingerprint, allBSSIDs);
 }
 
+

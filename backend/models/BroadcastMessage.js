@@ -21,3 +21,4 @@ const broadcastMessageSchema = new mongoose.Schema({
 });
 
 export default mongoose.model('BroadcastMessage', broadcastMessageSchema);
+

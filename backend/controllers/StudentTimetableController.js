@@ -113,3 +113,4 @@ export const getTimetableByDay = async (req, res) => {
       .json({ message: "Error loading timetable for specific day" });
   }
 };
+

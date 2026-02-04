@@ -1,6 +1,6 @@
 import express from "express";
 import protect from "../middleware/AuthMiddleware.js";
-import { requireRole } from "../middleware/roleMiddleware.js";
+import { requireRole } from "../middleware/RoleMiddleware.js";
 
 import {
   getFacultyAttendanceForDay
@@ -12,3 +12,4 @@ const protectFaculty = [protect, requireRole("faculty")];
 router.get("/day", protectFaculty, getFacultyAttendanceForDay);
 
 export default router;
+

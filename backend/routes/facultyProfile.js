@@ -3,7 +3,7 @@ import express from "express";
 import FacultyProfile from "../models/FacultyProfile.js";
 import User from "../models/User.js";
 import protect from "../middleware/AuthMiddleware.js";
-import { requireRole } from "../middleware/roleMiddleware.js";
+import { requireRole } from "../middleware/RoleMiddleware.js";
 
 const router = express.Router();
 
@@ -82,3 +82,4 @@ router.get("/:facultyId", async (req, res) => {
 
 // VERY IMPORTANT!!!
 export default router;
+

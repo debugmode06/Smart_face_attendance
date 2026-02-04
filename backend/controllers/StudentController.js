@@ -167,3 +167,4 @@ export const getStudentDashboard = async (req, res) => {
       .json({ message: "Server error loading dashboard" });
   }
 };
+

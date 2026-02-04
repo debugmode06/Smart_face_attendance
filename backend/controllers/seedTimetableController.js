@@ -54,3 +54,4 @@ export const seedWeeklyTimetable = async (req, res) => {
     res.status(500).json({ message: "Timetable seeding failed" });
   }
 };
+

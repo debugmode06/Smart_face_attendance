@@ -1,6 +1,6 @@
 import express from "express";
 import authMiddleware from "../middleware/AuthMiddleware.js";
-import { requireRole } from "../middleware/roleMiddleware.js";
+import { requireRole } from "../middleware/RoleMiddleware.js";
 
 import {
   getFacultyAssessments,
@@ -24,3 +24,4 @@ router.post("/submit", authMiddleware, requireRole("student"), submitAssessment)
 router.get("/submissions/:assessmentId", authMiddleware, requireRole("faculty"), getAssessmentSubmissions);
 
 export default router;
+

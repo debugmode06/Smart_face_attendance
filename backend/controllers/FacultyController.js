@@ -15,3 +15,4 @@ router.get("/dashboard", protect, getFacultyDashboard);
 // router.get("/profile", protect, getFacultyProfile);
 
 export default router;
+

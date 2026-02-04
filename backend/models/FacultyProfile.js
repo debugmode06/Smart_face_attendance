@@ -54,3 +54,4 @@ const FacultyProfileSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("FacultyProfile", FacultyProfileSchema);
+

@@ -48,3 +48,4 @@ export const chatWithAI = async (req, res) => {
       .json({ answer: "AI Mentor is not available right now. Please try again." });
   }
 };
+

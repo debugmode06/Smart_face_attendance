@@ -118,3 +118,4 @@ AttendanceSession.collection.dropIndex("token_1").catch(() => {
 });
 
 export default AttendanceSession;
+

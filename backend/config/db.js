@@ -14,3 +14,4 @@ export const connectDB = async () => {
     console.log("⚠️ Server running without database connection");
   }
 };
+

@@ -55,3 +55,4 @@ export const generateWeeklyTimetable = async (req, res) => {
     res.status(500).json({ message: "Error creating weekly timetable" });
   }
 };
+

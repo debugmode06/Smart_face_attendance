@@ -20,3 +20,4 @@ const studentStatsSchema = new mongoose.Schema(
 const StudentStats = mongoose.model("StudentStats", studentStatsSchema);
 
 export default StudentStats;
+

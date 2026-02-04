@@ -14,3 +14,4 @@ const facultyAbsenceSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("FacultyAbsence", facultyAbsenceSchema);
+

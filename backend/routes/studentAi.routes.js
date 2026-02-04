@@ -42,3 +42,4 @@ router.get("/ai-suggestions", async (req, res) => {
 });
 
 export default router;
+

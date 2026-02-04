@@ -2,12 +2,12 @@
 
 import express from "express";
 import authMiddleware from "../middleware/AuthMiddleware.js";
-import { requireRole } from "../middleware/roleMiddleware.js";
+import { requireRole } from "../middleware/RoleMiddleware.js";
 
 // Controllers
 import { getStudentDashboard } from "../controllers/StudentController.js";
 import { getTodayTimetable, getTimetableByDay } from "../controllers/StudentTimetableController.js";
-import { getAISuggestions } from "../controllers/AiSuggestionController.js";
+import { getAISuggestions } from "../controllers/AISuggestionController.js";
 import { saveInterests } from "../controllers/studentInterestController.js";
 import { markStudentAttendance } from "../controllers/AttendanceController.js";
 import { getCurrentQR } from "../controllers/QrController.js";
@@ -341,3 +341,4 @@ router.get("/current-free-period", protect, async (req, res) => {
 
 
 export default router;
+

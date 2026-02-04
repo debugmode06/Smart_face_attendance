@@ -60,3 +60,4 @@ export const checkWifiAuth = (req, res) => {
     });
   }
 };
+

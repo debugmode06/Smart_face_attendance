@@ -7,3 +7,4 @@ const router = express.Router();
 router.get("/seed-timetable", seedWeeklyTimetable);
 
 export default router;
+

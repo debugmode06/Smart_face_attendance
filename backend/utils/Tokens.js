@@ -6,3 +6,4 @@ export const generateToken = (id, role) => {
     expiresIn: "7d",
   });
 };
+

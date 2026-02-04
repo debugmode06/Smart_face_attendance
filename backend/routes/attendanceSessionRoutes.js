@@ -12,7 +12,7 @@ import {
   getSessionHistory,
 } from "../controllers/AttendanceSessionController.js";
 import { protect } from "../middleware/AuthMiddleware.js";
-import { faculty, student } from "../middleware/roleMiddleware.js";
+import { faculty, student } from "../middleware/RoleMiddleware.js";
 
 // ============= FACULTY ROUTES =============
 // Start new attendance session
@@ -41,3 +41,4 @@ router.get("/student/active", protect, student, getStudentActiveSession);
 router.post("/student/mark", protect, student, markAttendance);
 
 export default router;
+

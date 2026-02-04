@@ -1,7 +1,7 @@
 // backend/routes/adminRoutes.js
 import express from "express";
 import authMiddleware from "../middleware/AuthMiddleware.js";
-import { requireRole } from "../middleware/roleMiddleware.js";
+import { requireRole } from "../middleware/RoleMiddleware.js";
 import User from "../models/User.js";
 import WifiFingerprint from "../models/WifiFingerprint.js";
 import { seedWeeklyTimetable } from "../controllers/seedTimetableController.js";
@@ -179,3 +179,4 @@ router.delete(
 // router.get("/users", protect, requireRole("admin"), ...)
 
 export default router;
+

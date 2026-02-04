@@ -88,3 +88,4 @@ export const generateGameQuestion = async (req, res) => {
       .json({ message: "Learning path engine error (random mode)" });
   }
 };
+

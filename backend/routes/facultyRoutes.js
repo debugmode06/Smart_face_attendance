@@ -1,7 +1,7 @@
 // backend/routes/facultyRoutes.js
 import express from "express";
 import protect from "../middleware/AuthMiddleware.js";
-import { requireRole } from "../middleware/roleMiddleware.js";
+import { requireRole } from "../middleware/RoleMiddleware.js";
 
 import {
   getMyClassStudents,
@@ -46,3 +46,4 @@ router.get("/attendance/current", protectFaculty, getPresentStudentsForFaculty);
 router.get("/attendance/day", protectFaculty, getFacultyAttendanceForDay);
 
 export default router;
+

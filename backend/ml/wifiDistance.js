@@ -85,3 +85,4 @@ export function manhattanDistance(vec1, vec2) {
   return sumAbsDiff;
 }
 
+

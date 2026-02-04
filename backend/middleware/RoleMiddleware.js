@@ -1,4 +1,4 @@
-// backend/middleware/roleMiddleware.js
+// backend/middleware/RoleMiddleware.js
 
 export const requireRole = (...allowedRoles) => {
   return (req, res, next) => {
@@ -22,3 +22,4 @@ export const requireRole = (...allowedRoles) => {
 export const faculty = requireRole("faculty");
 export const student = requireRole("student");
 export const admin = requireRole("admin");
+

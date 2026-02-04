@@ -53,3 +53,4 @@ export const weeklyPlan = {
     { subject: "Lab", teacherId: "692a2b1bafe92af2541e110C" },
   ]
 };
+

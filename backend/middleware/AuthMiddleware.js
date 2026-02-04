@@ -41,3 +41,4 @@ export const protectAdmin = async (req, res, next) => {
 
 // ✔ Fix: Add default export for old imports
 export default protect;
+

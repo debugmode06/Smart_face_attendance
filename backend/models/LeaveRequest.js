@@ -30,3 +30,4 @@ const LeaveSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("LeaveRequest", LeaveSchema);
+

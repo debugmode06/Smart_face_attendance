@@ -34,3 +34,4 @@ const WifiFingerprint = mongoose.model("WifiFingerprint", wifiFingerprintSchema)
 
 export default WifiFingerprint;
 
+

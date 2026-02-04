@@ -63,3 +63,4 @@ export const getAssessmentSubmissions = async (req, res) => {
 
   res.json({ submissions });
 };
+

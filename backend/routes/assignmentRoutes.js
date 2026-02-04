@@ -174,3 +174,4 @@ router.get("/faculty/assignments/all/:facultyId", async (req, res) => {
 
 
 export default router;
+

@@ -10,3 +10,4 @@ const GameHistorySchema = new mongoose.Schema({
 }, { timestamps: true });
 
 export default mongoose.model("GameHistory", GameHistorySchema);
+
