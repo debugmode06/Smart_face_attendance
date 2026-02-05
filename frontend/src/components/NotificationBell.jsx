@@ -147,72 +147,106 @@ export default function NotificationBell({ userId, onNotificationClick }) {
             onClick={() => setShowDropdown(false)}
           />
 
-          {/* Notification Panel */}
-          <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[500px] overflow-hidden flex flex-col">
-            {/* Header */}
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">
+          {/* Notification Panel - iOS Style */}
+          <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl shadow-2xl z-50 max-h-[600px] overflow-hidden flex flex-col" 
+               style={{ 
+                 backgroundColor: '#f2f2f7',
+                 fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif'
+               }}>
+            {/* Header - iOS Style */}
+            <div className="px-5 pt-5 pb-3" style={{ backgroundColor: '#f2f2f7' }}>
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="text-2xl font-semibold" style={{ color: '#000', letterSpacing: '-0.5px' }}>
                   Notifications
                 </h3>
-                {unreadCount > 0 && (
-                  <button
-                    onClick={handleMarkAllAsRead}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium"
-                  >
-                    Mark all read
-                  </button>
-                )}
               </div>
+              {unreadCount > 0 && (
+                <button
+                  onClick={handleMarkAllAsRead}
+                  className="text-sm font-medium transition-opacity hover:opacity-70"
+                  style={{ color: '#007AFF' }}
+                >
+                  Mark all read
+                </button>
+              )}
             </div>
 
-            {/* Notifications List */}
-            <div className="overflow-y-auto flex-1">
+            {/* Notifications List - iOS Cards */}
+            <div className="overflow-y-auto flex-1 px-3 pb-3">
               {loading ? (
-                <div className="p-8 text-center">
-                  <div className="inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                  <p className="mt-2 text-sm text-gray-500">Loading...</p>
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-10 h-10 border-3 rounded-full animate-spin" 
+                       style={{ borderColor: '#007AFF', borderTopColor: 'transparent', borderWidth: '3px' }}></div>
+                  <p className="mt-3 text-sm" style={{ color: '#8e8e93' }}>Loading...</p>
                 </div>
               ) : notifications.length === 0 ? (
-                <div className="p-8 text-center">
-                  <Bell className="w-12 h-12 mx-auto text-gray-300 mb-2" />
-                  <p className="text-sm text-gray-500">No notifications yet</p>
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mb-3" 
+                       style={{ backgroundColor: '#e5e5ea' }}>
+                    <Bell className="w-8 h-8" style={{ color: '#8e8e93' }} />
+                  </div>
+                  <p className="text-sm font-medium" style={{ color: '#8e8e93' }}>No Notifications</p>
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100">
+                <div className="space-y-2">
                   {notifications.map((notification) => (
                     <button
                       key={notification._id}
                       onClick={() => handleNotificationClick(notification)}
-                      className={`w-full p-4 text-left hover:bg-gray-50 transition-colors ${
-                        !notification.read ? 'bg-blue-50' : ''
-                      }`}
+                      className="w-full rounded-xl transition-all duration-200 hover:scale-[0.98] active:scale-95"
+                      style={{
+                        backgroundColor: '#fff',
+                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+                      }}
                     >
-                      <div className="flex gap-3">
-                        {/* Icon */}
-                        <div className="flex-shrink-0 text-2xl">
-                          {getNotificationIcon(notification.type)}
+                      <div className="flex gap-3 p-4">
+                        {/* App Icon - iOS Style */}
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl"
+                               style={{
+                                 backgroundColor: notification.read ? '#f2f2f7' : '#007AFF15',
+                                 boxShadow: notification.read ? 'none' : '0 2px 8px rgba(0, 122, 255, 0.15)'
+                               }}>
+                            {getNotificationIcon(notification.type)}
+                          </div>
                         </div>
 
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <p className={`text-sm font-medium ${
-                            !notification.read ? 'text-gray-900' : 'text-gray-700'
-                          }`}>
+                        {/* Content - iOS Style */}
+                        <div className="flex-1 min-w-0 text-left">
+                          {/* Title */}
+                          <p className="text-sm font-semibold mb-0.5" 
+                             style={{ 
+                               color: '#000',
+                               letterSpacing: '-0.2px',
+                               lineHeight: '1.3'
+                             }}>
                             {notification.title}
                           </p>
-                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                          
+                          {/* Message */}
+                          <p className="text-sm mb-1 line-clamp-2" 
+                             style={{ 
+                               color: '#3c3c43',
+                               lineHeight: '1.4'
+                             }}>
                             {notification.message}
                           </p>
-                          <p className="text-xs text-gray-400 mt-1">
+                          
+                          {/* Timestamp - iOS Style */}
+                          <p className="text-xs" 
+                             style={{ 
+                               color: '#8e8e93',
+                               fontWeight: '500'
+                             }}>
                             {getTimeAgo(notification.createdAt)}
                           </p>
                         </div>
 
-                        {/* Unread Dot */}
+                        {/* Unread Indicator - iOS Blue Dot */}
                         {!notification.read && (
-                          <div className="flex-shrink-0">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <div className="flex-shrink-0 flex items-start pt-1">
+                            <div className="w-2.5 h-2.5 rounded-full" 
+                                 style={{ backgroundColor: '#007AFF' }}></div>
                           </div>
                         )}
                       </div>
@@ -222,17 +256,22 @@ export default function NotificationBell({ userId, onNotificationClick }) {
               )}
             </div>
 
-            {/* Footer */}
+            {/* Footer - iOS Style */}
             {notifications.length > 0 && (
-              <div className="p-3 border-t border-gray-200 bg-gray-50">
+              <div className="px-3 pb-3 pt-1">
                 <button
                   onClick={() => {
                     setShowDropdown(false);
                     // Navigate to full notifications page if exists
                   }}
-                  className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium"
+                  className="w-full text-center py-3 rounded-xl font-medium text-sm transition-all duration-200 hover:opacity-70"
+                  style={{
+                    backgroundColor: '#fff',
+                    color: '#007AFF',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}
                 >
-                  View all notifications
+                  View All Notifications
                 </button>
               </div>
             )}

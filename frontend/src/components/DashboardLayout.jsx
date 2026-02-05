@@ -6,7 +6,7 @@ import NotificationBell from "./NotificationBell";
 export default function DashboardLayout({ sidebarItems, title }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+  // REMOVED: const [showChat, setShowChat] = useState(false); - Unused after removing duplicate message button
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const location = useLocation();
@@ -239,13 +239,9 @@ export default function DashboardLayout({ sidebarItems, title }) {
           </nav>
         )}
 
-        {/* Floating Message Button */}
-        <button
-          onClick={() => setShowChat(!showChat)}
-          className="fixed bottom-20 right-6 md:bottom-6 w-14 h-14 bg-blue-500 hover:bg-blue-600 rounded-full shadow-lg flex items-center justify-center z-50 transition-transform hover:scale-110"
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-        </button>
+        {/* REMOVED: Duplicate Floating Message Button */}
+        {/* Message icon now handled by FloatingMessageButton component in FacultyLayout */}
+        {/* This duplicate was causing the ghost icon issue */}
 
         {/* Edit Profile Modal */}
         {showEditProfile && (
@@ -376,86 +372,9 @@ export default function DashboardLayout({ sidebarItems, title }) {
           </div>
         )}
 
-        {/* Chat Modal - iMessage Style */}
-        {showChat && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-end md:items-center md:justify-center" onClick={() => setShowChat(false)}>
-            <div 
-              className="bg-white w-full md:w-96 md:rounded-2xl shadow-2xl flex flex-col" 
-              style={{ height: isMobile ? '85vh' : '600px' }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Chat Header */}
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-4 flex items-center justify-between md:rounded-t-2xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                    <MessageCircle className="w-5 h-5 text-blue-500" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold">Messages</h3>
-                    <p className="text-white/80 text-xs">Faculty & Students</p>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => setShowChat(false)}
-                  className="text-white hover:bg-white/20 rounded-full p-2 transition"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-                <div className="space-y-4">
-                  {/* Received Message */}
-                  <div className="flex items-start gap-2">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full flex-shrink-0"></div>
-                    <div>
-                      <div className="bg-gray-200 rounded-2xl rounded-tl-sm px-4 py-2 max-w-xs">
-                        <p className="text-sm text-gray-800">Hi! Don't forget about tomorrow's assignment deadline.</p>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1 ml-2">Faculty - 10:30 AM</p>
-                    </div>
-                  </div>
-
-                  {/* Sent Message */}
-                  <div className="flex items-start gap-2 justify-end">
-                    <div>
-                      <div className="bg-blue-500 rounded-2xl rounded-tr-sm px-4 py-2 max-w-xs">
-                        <p className="text-sm text-white">Thank you! I'll submit it today.</p>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1 mr-2 text-right">10:32 AM</p>
-                    </div>
-                  </div>
-
-                  {/* Received Message */}
-                  <div className="flex items-start gap-2">
-                    <div className="w-8 h-8 bg-emerald-300 rounded-full flex-shrink-0"></div>
-                    <div>
-                      <div className="bg-gray-200 rounded-2xl rounded-tl-sm px-4 py-2 max-w-xs">
-                        <p className="text-sm text-gray-800">Can you share your notes from yesterday's class?</p>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1 ml-2">Student - 11:15 AM</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Chat Input */}
-              <div className="p-4 bg-white border-t border-gray-200 md:rounded-b-2xl">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="iMessage"
-                    className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
-                    <span className="text-white font-bold text-lg">↑</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* REMOVED: Chat Modal - No longer needed after FloatingMessageButton handles messaging */}
+        {/* The chat modal code was removed because the button to open it (showChat) was the duplicate */}
+        {/* Messaging is now handled by the FloatingMessageButton component in FacultyLayout */}
       </div>
     </div>
   );
