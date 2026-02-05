@@ -35,46 +35,4 @@ router.get('/students-debug', async (req, res) => {
   }
 });
 
-// Update student className (for quick fixes)
-router.post('/update-student-class', async (req, res) => {
-  try {
-    const { email, className } = req.body;
-    
-    if (!email || !className) {
-      return res.status(400).json({
-        success: false,
-        message: 'email and className are required'
-      });
-    }
-    
-    const student = await Student.findOneAndUpdate(
-      { email },
-      { className },
-      { new: true }
-    );
-    
-    if (!student) {
-      return res.status(404).json({
-        success: false,
-        message: 'Student not found'
-      });
-    }
-    
-    res.json({
-      success: true,
-      message: 'Student className updated',
-      student: {
-        name: student.name,
-        email: student.email,
-        className: student.className
-      }
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
 export default router;

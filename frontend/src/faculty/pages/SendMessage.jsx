@@ -12,7 +12,7 @@ export default function SendMessage({ isOpen, onClose }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const facultyName = user.name || "Faculty";
 
-  // Class options - MUST match database classSection values exactly
+  // Class options - MUST match database className values exactly
   const classOptions = [
     "CSE A",
     "CSE B", 
@@ -47,9 +47,9 @@ export default function SendMessage({ isOpen, onClose }) {
       console.log('Faculty Name:', facultyName);
       console.log('======================');
 
-      // POST-MIGRATION: Send classSection field (not className)
+      // Send className field (matches database)
       const response = await api.post("/notifications/broadcast-to-class", {
-        classSection: selectedClass, // Changed from className to classSection
+        className: selectedClass, // Database uses className field
         title: title,
         message: message,
         facultyName: facultyName,

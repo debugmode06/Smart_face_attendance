@@ -222,43 +222,59 @@ export const createAttendanceNotification = async (classSection, attendanceId, s
 };
 
 // Broadcast message to specific class
-// POST-MIGRATION: Uses ONLY classSection field
+// Uses className field (supports both "CSE B" and "CSE-B" formats)
 export const broadcastToClass = async (req, res) => {
   try {
-    const { classSection, title, message, facultyName, type = 'announcement' } = req.body;
+    const { className, title, message, facultyName, type = 'announcement' } = req.body;
 
     console.log('\n=== BROADCAST TO CLASS REQUEST ===');
-    console.log('classSection:', classSection);
+    console.log('className:', className);
     console.log('title:', title);
     console.log('message:', message);
     console.log('===================================\n');
 
     // Validate required fields
-    if (!classSection || !title || !message) {
+    if (!className || !title || !message) {
       return res.status(400).json({
         success: false,
-        message: 'classSection, title, and message are required'
+        message: 'className, title, and message are required'
       });
     }
 
-    // Normalize classSection (trim, uppercase, single space)
-    const normalizedClassSection = classSection
-      .trim()
-      .toUpperCase()
-      .replace(/\s+/g, ' ');
+    // Normalize className (trim)
+    const normalizedClassName = className.trim();
 
-    console.log(`[Query] Looking for classSection: "${normalizedClassSection}"`);
+    console.log(`[Query] Looking for className: "${normalizedClassName}"`);
 
-    // SINGLE CANONICAL QUERY - No fallbacks, no $or
-    const students = await Student.find({ 
-      classSection: normalizedClassSection
-    }).select('_id name classSection department');
+    // Try exact match first
+    let students = await Student.find({ 
+      className: normalizedClassName
+    }).select('_id name className department');
 
-    console.log(`[Query] Found ${students.length} students`);
+    console.log(`[Query] Exact match found ${students.length} students`);
 
-    // If no students found, return detailed error
+    // If no exact match, try with space/hyphen alternatives
     if (students.length === 0) {
-      const allClasses = await Student.distinct('classSection');
+      // Try with hyphen if input has space
+      if (normalizedClassName.includes(' ')) {
+        const withHyphen = normalizedClassName.replace(/\s+/g, '-');
+        console.log(`[Query] Trying with hyphen: "${withHyphen}"`);
+        students = await Student.find({ className: withHyphen }).select('_id name className department');
+        console.log(`[Query] Hyphen match found ${students.length} students`);
+      }
+      
+      // Try with space if input has hyphen
+      if (students.length === 0 && normalizedClassName.includes('-')) {
+        const withSpace = normalizedClassName.replace(/-/g, ' ');
+        console.log(`[Query] Trying with space: "${withSpace}"`);
+        students = await Student.find({ className: withSpace }).select('_id name className department');
+        console.log(`[Query] Space match found ${students.length} students`);
+      }
+    }
+
+    // If still no students found, return detailed error
+    if (students.length === 0) {
+      const allClasses = await Student.distinct('className');
       const totalStudents = await Student.countDocuments();
       
       console.log('[Error] No students found');
@@ -274,9 +290,9 @@ export const broadcastToClass = async (req, res) => {
       
       return res.status(404).json({
         success: false,
-        message: `No students found in classSection "${normalizedClassSection}".`,
+        message: `No students found in className "${normalizedClassName}".`,
         debug: {
-          searchedFor: normalizedClassSection,
+          searchedFor: normalizedClassName,
           totalStudents: totalStudents,
           availableClasses: allClasses.length > 0 ? allClasses : null
         }
@@ -302,9 +318,9 @@ export const broadcastToClass = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `Message sent to ${students.length} students in ${normalizedClassSection}`,
+      message: `Message sent to ${students.length} students in ${normalizedClassName}`,
       count: students.length,
-      classSection: normalizedClassSection,
+      className: normalizedClassName,
       students: students.map(s => s.name)
     });
   } catch (error) {
