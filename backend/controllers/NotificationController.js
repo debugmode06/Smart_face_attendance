@@ -235,10 +235,10 @@ export const broadcastToClass = async (req, res) => {
 
     console.log(`[broadcastToClass] Looking for students in class: ${className}`);
 
-    // Student model uses 'className' field (not classSection)
+    // Student model uses 'className' field
     let students = await Student.find({ 
       className: className 
-    }).select('_id name className');
+    }).select('_id name className department');
 
     console.log(`[broadcastToClass] Found ${students.length} students with exact match`);
 
@@ -248,7 +248,7 @@ export const broadcastToClass = async (req, res) => {
       console.log(`[broadcastToClass] Trying with hyphen: ${classNameWithHyphen}`);
       students = await Student.find({ 
         className: classNameWithHyphen 
-      }).select('_id name className');
+      }).select('_id name className department');
       console.log(`[broadcastToClass] Found ${students.length} students with hyphen`);
     }
 
@@ -258,15 +258,35 @@ export const broadcastToClass = async (req, res) => {
       console.log(`[broadcastToClass] Trying with space: ${classNameWithSpace}`);
       students = await Student.find({ 
         className: classNameWithSpace 
-      }).select('_id name className');
+      }).select('_id name className department');
       console.log(`[broadcastToClass] Found ${students.length} students with space`);
     }
 
+    // If STILL no students, try partial match on department (e.g., "CSE B" -> find dept:"CSE")
     if (students.length === 0) {
-      // Log all unique classNames in database for debugging
+      const parts = className.split(' ');
+      if (parts.length >= 1) {
+        const dept = parts[0]; // e.g., "CSE" from "CSE B"
+        console.log(`[broadcastToClass] Trying department match: ${dept}`);
+        students = await Student.find({ 
+          department: dept
+        }).select('_id name className department');
+        console.log(`[broadcastToClass] Found ${students.length} students by department`);
+        
+        if (students.length > 0) {
+          console.log(`[broadcastToClass] Warning: Sending to ALL students in ${dept} department (className field may not be set)`);
+        }
+      }
+    }
+
+    if (students.length === 0) {
+      // Log all unique classNames and departments in database for debugging
       const allClasses = await Student.distinct('className');
+      const allDepts = await Student.distinct('department');
       const totalStudents = await Student.countDocuments();
+      
       console.log('[broadcastToClass] Available classes in database:', allClasses);
+      console.log('[broadcastToClass] Available departments:', allDepts);
       console.log('[broadcastToClass] Total students in database:', totalStudents);
       
       // If no students at all, return different error
@@ -279,7 +299,7 @@ export const broadcastToClass = async (req, res) => {
       
       return res.status(404).json({
         success: false,
-        message: `No students found in class: ${className}. Available classes: ${allClasses.length > 0 ? allClasses.join(', ') : 'None (students may not have className field set)'}`
+        message: `No students found for "${className}". Available: ${allClasses.filter(c => c).length > 0 ? allClasses.filter(c => c).join(', ') : `Departments: ${allDepts.join(', ')}`}`
       });
     }
 
