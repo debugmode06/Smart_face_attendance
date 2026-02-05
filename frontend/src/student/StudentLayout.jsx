@@ -1,5 +1,6 @@
 // src/student/StudentLayout.jsx
 import DashboardLayout from "../components/DashboardLayout";
+import FloatingMessageButton from "./components/FloatingMessageButton";
 import {
   Home,
   Calendar,
@@ -22,6 +23,11 @@ export default function StudentLayout() {
     { label: "AI Assistant", path: "ai", icon: BrainCircuit },
   ];
 
-  return <DashboardLayout sidebarItems={items} title="Student Panel" />;
+  return (
+    <>
+      <DashboardLayout sidebarItems={items} title="Student Panel" />
+      <FloatingMessageButton />
+    </>
+  );
 }
 

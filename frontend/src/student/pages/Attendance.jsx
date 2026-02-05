@@ -533,9 +533,9 @@ export default function Attendance() {
   // UI
   // ============================
   return (
-    <div className="space-y-6 bg-slate-50 min-h-screen p-6 -m-6">
+    <div className="space-y-6 bg-slate-50 min-h-screen p-4 sm:p-6 -m-4 sm:-m-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 shadow-xl px-6 py-8 text-white">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 shadow-xl px-4 sm:px-6 py-6 sm:py-8 text-white">
         <div className="absolute inset-0 bg-grid-white/[0.03] bg-[size:20px_20px]" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="relative z-10">
@@ -564,10 +564,10 @@ export default function Attendance() {
       )}
 
       {/* Verification Cards */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-4">
           {/* Verification Progress */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 p-5 sm:p-6 flex flex-col md:flex-row md:justify-between gap-4">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 p-4 sm:p-5 md:p-6 flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4">
             <div>
               <p className="text-sm font-semibold text-gray-700">
                 Verification Status
@@ -592,9 +592,9 @@ export default function Attendance() {
           </div>
 
           {/* WiFi / Location / Face / QR */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* WiFi */}
-            <div className="p-5 sm:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
+            <div className="p-4 sm:p-5 md:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
               <div className="flex justify-between mb-2">
                 <div>
                   <h3 className="text-lg font-semibold">Wi-Fi Verification</h3>
@@ -637,7 +637,7 @@ export default function Attendance() {
             </div>
 
             {/* Location */}
-            <div className="p-5 sm:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
+            <div className="p-4 sm:p-5 md:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
               <div className="flex justify-between mb-2">
                 <div>
                   <h3 className="text-lg font-semibold">Location</h3>
@@ -702,7 +702,7 @@ export default function Attendance() {
             </div>
 
             {/* Face Scan */}
-            <div className="p-5 sm:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
+            <div className="p-4 sm:p-5 md:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
               <div className="flex justify-between mb-2">
                 <div>
                   <h3 className="text-lg font-semibold">Face Scan</h3>
@@ -741,7 +741,7 @@ export default function Attendance() {
             </div>
 
             {/* QR */}
-            <div className="p-5 sm:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
+            <div className="p-4 sm:p-5 md:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 hover:shadow-2xl transition-all duration-300">
               <div className="flex justify-between mb-2">
                 <div>
                   <h3 className="text-lg font-semibold">QR Code</h3>
@@ -797,8 +797,8 @@ export default function Attendance() {
         </div>
 
         {/* Analytics */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 p-5 sm:p-6">
-          <div className="flex justify-between items-center">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-slate-200/50 p-4 sm:p-5 md:p-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
             <div>
               <p className="text-sm font-semibold text-gray-700">
                 Attendance Insights
@@ -807,7 +807,7 @@ export default function Attendance() {
                 Your consistency trend overview.
               </p>
             </div>
-            <span className="text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
+            <span className="text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100 self-start sm:self-auto">
               Analytics
             </span>
           </div>

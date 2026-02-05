@@ -79,129 +79,129 @@ export default function DashboardLayout({ sidebarItems, title }) {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* DESKTOP SIDEBAR */}
-      {!isMobile && (
-        <div className="w-64 bg-white shadow-lg border-r border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-blue-600">
-              {title}
-            </h2>
-          </div>
-
-          <nav className="mt-4 px-3">
-            {sidebarItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-3.5 text-sm font-medium rounded-xl mb-2 transition-all
-                  ${
-                    isActive
-                      ? "bg-blue-500 text-white shadow-md"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      {/* TOP NAVBAR - STICKY */}
+      <header className="flex items-center justify-between bg-white shadow-sm px-4 sm:px-6 py-2.5 border-b border-gray-200 z-40 sticky top-0 bg-white">
+        <div className="flex items-center gap-3">
+          <h1 className="text-lg sm:text-xl font-bold text-gray-800 capitalize">
+            {current.replace("-", " ")}
+          </h1>
         </div>
-      )}
 
-      {/* MAIN AREA */}
-      <div className="flex-1 flex flex-col">
-        {/* TOP NAVBAR */}
-        <header className="flex items-center justify-between bg-white shadow-sm px-4 sm:px-6 py-2.5 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <h1 className="text-lg sm:text-xl font-bold text-gray-800 capitalize">
-              {current.replace("-", " ")}
-            </h1>
-          </div>
+        {/* Right side - Notification + Profile */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Notification Bell */}
+          <NotificationBell 
+            userId={user?._id || user?.id} 
+            onNotificationClick={handleNotificationClick}
+          />
 
-          {/* Right side - Notification + Profile */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Notification Bell */}
-            <NotificationBell 
-              userId={user?._id || user?.id} 
-              onNotificationClick={handleNotificationClick}
-            />
-
-            {/* Profile Dropdown */}
-            <div className="relative">
-              <div 
-                onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1.5 rounded-lg transition"
-              >
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  {user?.name?.charAt(0) || 'U'}
-                </div>
-                <div className="hidden sm:block text-left">
-                  <p className="text-sm font-semibold text-gray-800">{user?.name || 'User'}</p>
-                  <p className="text-xs text-gray-500">{user?.role || 'Role'}</p>
-                </div>
-                <ChevronDown className="w-4 h-4 text-gray-600 hidden sm:block" />
+          {/* Profile Dropdown */}
+          <div className="relative">
+            <div 
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1.5 rounded-lg transition"
+            >
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                {user?.name?.charAt(0) || 'U'}
               </div>
-
-              {/* Profile Dropdown Menu */}
-              {showProfileMenu && (
-                <>
-                  <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setShowProfileMenu(false)}
-                  />
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
-                    {/* Profile Header */}
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-semibold text-gray-800">{user?.name || 'User'}</p>
-                      <p className="text-xs text-gray-500">{user?.email || 'user@example.com'}</p>
-                    </div>
-
-                    {/* Menu Items */}
-                    <button
-                      onClick={() => {
-                        setShowProfileMenu(false);
-                        setShowEditProfile(true);
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition"
-                    >
-                      <User className="w-4 h-4" />
-                      <span>Edit Profile</span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setShowProfileMenu(false);
-                        // Navigate to settings
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition"
-                    >
-                      <Settings className="w-4 h-4" />
-                      <span>Settings</span>
-                    </button>
-
-                    <div className="border-t border-gray-100 mt-1 pt-1">
-                      <button
-                        onClick={() => {
-                          setShowProfileMenu(false);
-                          handleLogout();
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Sign Out</span>
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
+              <div className="hidden sm:block text-left">
+                <p className="text-sm font-semibold text-gray-800">{user?.name || 'User'}</p>
+                <p className="text-xs text-gray-500">{user?.role || 'Role'}</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-gray-600 hidden sm:block" />
             </div>
-          </div>
-        </header>
 
-        {/* CONTENT */}
+            {/* Profile Dropdown Menu */}
+            {showProfileMenu && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setShowProfileMenu(false)}
+                />
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+                  {/* Profile Header */}
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-sm font-semibold text-gray-800">{user?.name || 'User'}</p>
+                    <p className="text-xs text-gray-500">{user?.email || 'user@example.com'}</p>
+                  </div>
+
+                  {/* Menu Items */}
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      setShowEditProfile(true);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Edit Profile</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      // Navigate to settings
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition"
+                  >
+                    <Settings className="w-4 h-4" />
+                    <span>Settings</span>
+                  </button>
+
+                  <div className="border-t border-gray-100 mt-1 pt-1">
+                    <button
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                        handleLogout();
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* MAIN CONTENT AREA WITH SIDEBAR */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* DESKTOP SIDEBAR */}
+        {!isMobile && (
+          <div className="w-64 bg-white shadow-lg border-r border-gray-200 flex-shrink-0">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-blue-600">
+                {title}
+              </h2>
+            </div>
+
+            <nav className="mt-4 px-3">
+              {sidebarItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center px-4 py-3.5 text-sm font-medium rounded-xl mb-2 transition-all
+                    ${
+                      isActive
+                        ? "bg-blue-500 text-white shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`
+                  }
+                >
+                  <item.icon className="w-5 h-5 mr-3" />
+                  {item.label}
+                </NavLink>
+              ))}
+            </nav>
+          </div>
+        )}
+
+        {/* MAIN CONTENT */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 pb-20 md:pb-6">
           <div className="max-w-full">
             <Outlet />

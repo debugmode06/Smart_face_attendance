@@ -191,13 +191,13 @@ export default function FacultyDashboard() {
   const departmentOptions = ["All", ...(departments || [])];
 
   return (
-    <div className="space-y-6 bg-slate-50 min-h-screen p-6 -m-6">
+    <div className="space-y-6 bg-slate-50 min-h-screen p-4 sm:p-6 -m-4 sm:-m-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 shadow-xl px-6 py-8 text-white">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 shadow-xl px-4 sm:px-6 py-6 sm:py-8 text-white">
         <div className="absolute inset-0 bg-grid-white/[0.03] bg-[size:20px_20px]" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="relative z-10">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
@@ -212,7 +212,7 @@ export default function FacultyDashboard() {
             </div>
 
             <div className="flex flex-col items-end gap-2">
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                 <FilterDropdown
                   label="Class"
                   value={selectedClass}
@@ -239,7 +239,7 @@ export default function FacultyDashboard() {
 
       {/* Top Stats */}
       <div className="bg-white rounded-2xl shadow-lg border border-slate-200/60 p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 gap-5">
           <StatCard
             icon={Users}
             label="Total Students"
@@ -262,10 +262,10 @@ export default function FacultyDashboard() {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 gap-5">
           {/* GENDER PIE */}
           <Card title="Gender Distribution (Static for Demo)">
-            <div className="w-full h-72">
+            <div className="w-full h-64 sm:h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <RPieChart>
                   <Pie
@@ -299,7 +299,7 @@ export default function FacultyDashboard() {
 
           {/* AVG CGPA BY CLASS */}
           <Card title="Average CGPA by Class">
-            <div className="w-full h-72">
+            <div className="w-full h-64 sm:h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <RBarChart data={classChartData}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
@@ -329,7 +329,7 @@ export default function FacultyDashboard() {
 
           {/* SUBJECT MARKS – H/L/AVG */}
           <Card title="Subject Marks by Class (Highest / Lowest / Average)">
-            <div className="w-full h-72">
+            <div className="w-full h-64 sm:h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <RLineChart data={marksOverviewData}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
@@ -378,10 +378,10 @@ export default function FacultyDashboard() {
         </div>
 
       {/* Bottom Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5">
           {/* TRENDS BY CLASS */}
           <Card title="CGPA Trends by Class">
-            <div className="w-full h-80">
+            <div className="w-full h-64 sm:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <RLineChart data={trendsData}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
@@ -412,7 +412,7 @@ export default function FacultyDashboard() {
 
           {/* RESULTS BY CLASS */}
           <Card title="Results by Class">
-            <div className="flex h-80">
+            <div className="flex h-64 sm:h-80">
               <div className="w-1/2">
                 <ResponsiveContainer width="100%" height="100%">
                   <RPieChart>

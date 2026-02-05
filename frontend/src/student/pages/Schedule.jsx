@@ -111,7 +111,7 @@ export default function Schedule() {
   };
 
   return (
-    <div className="min-h-screen bg-[#EEF2F1] p-6 -m-4 sm:-m-6">
+    <div className="min-h-screen bg-[#EEF2F1] p-4 sm:p-6 -m-4 sm:-m-6">
       {/* Header Section */}
       <div className="flex flex-col gap-4 mb-6">
         {/* Title */}
@@ -120,7 +120,7 @@ export default function Schedule() {
         </h1>
         
         {/* Week Days Selector */}
-        <div className="flex gap-2">
+        <div className="flex gap-1 overflow-x-auto pb-2">
           {weekDays.map((day, idx) => {
             const selected = isSelected(day);
             const today = isToday(day);
@@ -129,7 +129,7 @@ export default function Schedule() {
               <div
                 key={idx}
                 onClick={() => setSelectedDate(day)}
-                className={`flex-1 h-14 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all ${
+                className={`flex-1 min-w-[50px] h-14 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all ${
                   selected 
                     ? 'bg-[#1F7F6B]' 
                     : 'bg-white hover:bg-gray-50'

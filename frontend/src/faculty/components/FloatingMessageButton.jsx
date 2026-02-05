@@ -13,11 +13,12 @@ export default function FloatingMessageButton() {
         onClick={() => setIsOpen(true)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="fixed bottom-6 right-6 z-40 group"
+        className="fixed bottom-24 right-6 z-40 group"
         style={{
           width: '60px',
           height: '60px',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          marginBottom: '20px' // Extra space for mobile nav
         }}
       >
         {/* Main Circle */}
