@@ -24,5 +24,11 @@ router.post('/read-all/:userId', notificationController.markAllAsRead);
 // Delete notification
 router.delete('/:notificationId', notificationController.deleteNotification);
 
+// Broadcast to specific class (Faculty)
+router.post('/broadcast-to-class', notificationController.broadcastToClass);
+
+// Broadcast to all (Admin)
+router.post('/broadcast-to-all', notificationController.broadcastToAll);
+
 export default router;
 

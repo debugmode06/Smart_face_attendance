@@ -1,5 +1,6 @@
 // src/faculty/FacultyLayout.jsx
 import DashboardLayout from "../components/DashboardLayout";
+import FloatingMessageButton from "./components/FloatingMessageButton";
 import {
   Home,
   Users,
@@ -20,9 +21,13 @@ export default function FacultyLayout() {
     { label: "Students", path: "students", icon: Users },
     { label: "Timetable", path: "timetable", icon: Calendar },
     { label: "Attendance", path: "attendance", icon: FileCheck },
-    { label: "Communication", path: "communication", icon: MessageSquare },
   ];
 
-  return <DashboardLayout sidebarItems={items} title="Faculty Panel" />;
+  return (
+    <>
+      <DashboardLayout sidebarItems={items} title="Faculty Panel" />
+      <FloatingMessageButton />
+    </>
+  );
 }
 

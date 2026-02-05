@@ -35,7 +35,7 @@ import MarkAttendance from "./student/pages/MarkAttendance";
 // FACULTY PAGES
 import FacultyDashboard from "./faculty/pages/Dashboard";
 import Students from "./faculty/pages/Students";
-import FacultyTimetable from "./faculty/pages/Timetable";
+import FacultyTimetable from "./faculty/pages/TimetableNew";
 import FacultyAttendance from "./faculty/pages/Attendance";
 import FacultyAssignments from "./faculty/pages/Assignments";
 import FacultySyllabus from "./faculty/pages/Syllabus";
