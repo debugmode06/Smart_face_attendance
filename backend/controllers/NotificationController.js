@@ -222,105 +222,48 @@ export const createAttendanceNotification = async (classSection, attendanceId, s
 };
 
 // Broadcast message to specific class
+// POST-MIGRATION: Uses ONLY classSection field
 export const broadcastToClass = async (req, res) => {
   try {
-    const { className, title, message, facultyName, type = 'announcement' } = req.body;
+    const { classSection, title, message, facultyName, type = 'announcement' } = req.body;
 
-    // ============================================
-    // DEBUG: Log incoming request
-    // ============================================
     console.log('\n=== BROADCAST TO CLASS REQUEST ===');
-    console.log('Request body:', JSON.stringify(req.body, null, 2));
-    console.log('className:', className);
+    console.log('classSection:', classSection);
     console.log('title:', title);
     console.log('message:', message);
-    console.log('facultyName:', facultyName);
     console.log('===================================\n');
 
-    if (!className || !title || !message) {
+    // Validate required fields
+    if (!classSection || !title || !message) {
       return res.status(400).json({
         success: false,
-        message: 'className, title, and message are required'
+        message: 'classSection, title, and message are required'
       });
     }
 
-    // ============================================
-    // STRATEGY 1: Exact match on className field
-    // ============================================
-    console.log(`[Strategy 1] Exact match: "${className}"`);
-    let students = await Student.find({ 
-      className: className 
-    }).select('_id name className department');
-    console.log(`[Strategy 1] Found ${students.length} students`);
+    // Normalize classSection (trim, uppercase, single space)
+    const normalizedClassSection = classSection
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, ' ');
 
-    // ============================================
-    // STRATEGY 2: Case-insensitive regex match
-    // ============================================
+    console.log(`[Query] Looking for classSection: "${normalizedClassSection}"`);
+
+    // SINGLE CANONICAL QUERY - No fallbacks, no $or
+    const students = await Student.find({ 
+      classSection: normalizedClassSection
+    }).select('_id name classSection department');
+
+    console.log(`[Query] Found ${students.length} students`);
+
+    // If no students found, return detailed error
     if (students.length === 0) {
-      console.log(`[Strategy 2] Case-insensitive regex match`);
-      const regex = new RegExp(`^${className.trim()}$`, 'i');
-      students = await Student.find({ 
-        className: { $regex: regex }
-      }).select('_id name className department');
-      console.log(`[Strategy 2] Found ${students.length} students`);
-    }
-
-    // ============================================
-    // STRATEGY 3: Try with hyphen instead of space
-    // ============================================
-    if (students.length === 0 && className.includes(' ')) {
-      const classNameWithHyphen = className.replace(/\s+/g, '-');
-      console.log(`[Strategy 3] Trying hyphen format: "${classNameWithHyphen}"`);
-      students = await Student.find({ 
-        className: classNameWithHyphen 
-      }).select('_id name className department');
-      console.log(`[Strategy 3] Found ${students.length} students`);
-    }
-
-    // ============================================
-    // STRATEGY 4: Try with space instead of hyphen
-    // ============================================
-    if (students.length === 0 && className.includes('-')) {
-      const classNameWithSpace = className.replace(/-/g, ' ');
-      console.log(`[Strategy 4] Trying space format: "${classNameWithSpace}"`);
-      students = await Student.find({ 
-        className: classNameWithSpace 
-      }).select('_id name className department');
-      console.log(`[Strategy 4] Found ${students.length} students`);
-    }
-
-    // ============================================
-    // STRATEGY 5: Partial match on department
-    // ============================================
-    if (students.length === 0) {
-      const parts = className.trim().split(/[\s-]+/);
-      if (parts.length >= 1) {
-        const dept = parts[0];
-        console.log(`[Strategy 5] Department match: "${dept}"`);
-        students = await Student.find({ 
-          department: new RegExp(`^${dept}$`, 'i')
-        }).select('_id name className department');
-        console.log(`[Strategy 5] Found ${students.length} students`);
-        
-        if (students.length > 0) {
-          console.log(`[Strategy 5] ⚠️  Sending to ALL ${dept} students (className not matched)`);
-        }
-      }
-    }
-
-    // ============================================
-    // NO STUDENTS FOUND - Return detailed error
-    // ============================================
-    if (students.length === 0) {
-      const allClasses = await Student.distinct('className');
-      const allDepts = await Student.distinct('department');
+      const allClasses = await Student.distinct('classSection');
       const totalStudents = await Student.countDocuments();
       
-      console.log('\n=== DEBUG: NO STUDENTS FOUND ===');
-      console.log('Total students in DB:', totalStudents);
-      console.log('Available classNames:', allClasses);
-      console.log('Available departments:', allDepts);
-      console.log('================================\n');
+      console.log('[Error] No students found');
+      console.log('Available classes:', allClasses);
+      console.log('Total students:', totalStudents);
       
       if (totalStudents === 0) {
         return res.status(404).json({
@@ -329,28 +272,19 @@ export const broadcastToClass = async (req, res) => {
         });
       }
       
-      const availableClasses = allClasses.filter(c => c && c.trim());
       return res.status(404).json({
         success: false,
-        message: `No students found for "${className}".`,
+        message: `No students found in classSection "${normalizedClassSection}".`,
         debug: {
-          searchedFor: className,
+          searchedFor: normalizedClassSection,
           totalStudents: totalStudents,
-          availableClasses: availableClasses.length > 0 ? availableClasses : null,
-          availableDepartments: allDepts.length > 0 ? allDepts : null
+          availableClasses: allClasses.length > 0 ? allClasses : null
         }
       });
     }
 
-    // ============================================
-    // SUCCESS - Create notifications
-    // ============================================
-    console.log(`\n✅ SUCCESS: Sending to ${students.length} students`);
-    console.log('Student details:', students.map(s => ({
-      name: s.name,
-      className: s.className,
-      department: s.department
-    })));
+    // Create notifications
+    console.log(`[Success] Creating notifications for ${students.length} students`);
     
     const userIds = students.map(student => student._id.toString());
 
@@ -364,13 +298,13 @@ export const broadcastToClass = async (req, res) => {
 
     await Notification.createForUsers(userIds, notificationData);
 
-    console.log(`✅ Notifications created successfully\n`);
+    console.log('✅ Notifications created successfully\n');
 
     res.status(200).json({
       success: true,
-      message: `Message sent to ${students.length} students in ${className}`,
+      message: `Message sent to ${students.length} students in ${normalizedClassSection}`,
       count: students.length,
-      className: className,
+      classSection: normalizedClassSection,
       students: students.map(s => s.name)
     });
   } catch (error) {

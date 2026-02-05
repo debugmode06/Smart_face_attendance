@@ -12,7 +12,7 @@ export default function SendMessage({ isOpen, onClose }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const facultyName = user.name || "Faculty";
 
-  // Class options - matching your database format (with space, not hyphen)
+  // Class options - MUST match database classSection values exactly
   const classOptions = [
     "CSE A",
     "CSE B", 
@@ -47,8 +47,9 @@ export default function SendMessage({ isOpen, onClose }) {
       console.log('Faculty Name:', facultyName);
       console.log('======================');
 
+      // POST-MIGRATION: Send classSection field (not className)
       const response = await api.post("/notifications/broadcast-to-class", {
-        className: selectedClass,
+        classSection: selectedClass, // Changed from className to classSection
         title: title,
         message: message,
         facultyName: facultyName,
@@ -90,8 +91,6 @@ export default function SendMessage({ isOpen, onClose }) {
           
           if (debug.availableClasses && debug.availableClasses.length > 0) {
             errorMessage += 'Available classes: ' + debug.availableClasses.join(', ');
-          } else if (debug.availableDepartments && debug.availableDepartments.length > 0) {
-            errorMessage += 'Available departments: ' + debug.availableDepartments.join(', ');
           }
           
           errorMessage += '\n\nTotal students in database: ' + debug.totalStudents;
