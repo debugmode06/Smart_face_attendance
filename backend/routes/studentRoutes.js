@@ -248,7 +248,8 @@ router.post(
   upload.single("image"),
   async (req, res) => {
     try {
-      const user = await User.findById(req.user._id);
+      const studentId = req.user._id;
+      const user = await User.findById(studentId);
 
       if (!user.faceEmbedding || !user.faceRegistered) {
         return res
@@ -260,6 +261,7 @@ router.post(
         return res.status(400).json({ message: "No image uploaded" });
       }
 
+      // Call Python face service to verify
       const form = new FormData();
       form.append("image", req.file.buffer, {
         filename: "face.jpg",
@@ -277,17 +279,77 @@ router.post(
           .json({ message: "Face did not match. Try again." });
       }
 
-      req.body = {
-        wifiVerified: true,
-        geoVerified: false,      // 🔥 set this if you want auto mark with geo
-        faceVerified: true,
-        qrVerified: false,
-      };
+      console.log(`\n✅ FACE MATCHED: ${user.name} (${studentId})`);
 
-      return markStudentAttendance(req, res);
+      // =============================================
+      // CRITICAL FIX: Mark in AttendanceSession
+      // =============================================
+      const AttendanceSession = (await import("../models/AttendanceSession.js")).default;
+      
+      // Find active session for this student's class
+      const session = await AttendanceSession.findOne({
+        className: user.className,
+        status: "active",
+        expiresAt: { $gt: new Date() },
+      }).sort({ createdAt: -1 });
+
+      if (!session) {
+        console.log(`⚠️  No active session found for class: ${user.className}`);
+        // Fall back to old attendance system
+        req.body = {
+          wifiVerified: true,
+          geoVerified: false,
+          faceVerified: true,
+          qrVerified: false,
+        };
+        return markStudentAttendance(req, res);
+      }
+
+      // Find student record in session
+      const studentRecord = session.studentsMarked.find(
+        (s) => s.studentId.toString() === studentId.toString()
+      );
+
+      if (!studentRecord) {
+        console.log(`⚠️  Student ${user.name} not found in session`);
+        return res.status(404).json({ 
+          message: "You are not enrolled in this attendance session." 
+        });
+      }
+
+      // Check if already marked
+      if (studentRecord.status === "present") {
+        console.log(`ℹ️  ${user.name} already marked present`);
+        return res.status(400).json({ 
+          message: "Attendance already marked" 
+        });
+      }
+
+      // =============================================
+      // MARK AS PRESENT IN SESSION
+      // =============================================
+      studentRecord.status = "present";
+      studentRecord.markedAt = new Date();
+      studentRecord.wifiVerified = true;
+      studentRecord.faceVerified = true;
+
+      // Update counts
+      session.presentCount += 1;
+      session.absentCount -= 1;
+
+      await session.save();
+
+      console.log(`✅ ATTENDANCE MARKED: ${user.name} -> PRESENT`);
+      console.log(`   Present: ${session.presentCount}, Absent: ${session.absentCount}`);
+
+      return res.json({
+        message: "Attendance marked successfully",
+        status: "present",
+        studentName: user.name,
+      });
     } catch (err) {
       console.error(
-        "Face attendance error:",
+        "\n❌ Face attendance error:",
         err.response?.data || err.message
       );
       
