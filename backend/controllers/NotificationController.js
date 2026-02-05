@@ -265,11 +265,21 @@ export const broadcastToClass = async (req, res) => {
     if (students.length === 0) {
       // Log all unique classNames in database for debugging
       const allClasses = await Student.distinct('className');
+      const totalStudents = await Student.countDocuments();
       console.log('[broadcastToClass] Available classes in database:', allClasses);
+      console.log('[broadcastToClass] Total students in database:', totalStudents);
+      
+      // If no students at all, return different error
+      if (totalStudents === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'No students found in the database. Please add students first.'
+        });
+      }
       
       return res.status(404).json({
         success: false,
-        message: `No students found in class: ${className}. Available classes: ${allClasses.join(', ')}`
+        message: `No students found in class: ${className}. Available classes: ${allClasses.length > 0 ? allClasses.join(', ') : 'None (students may not have className field set)'}`
       });
     }
 
