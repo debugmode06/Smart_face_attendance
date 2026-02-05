@@ -14,18 +14,18 @@ export default function SendMessage({ isOpen, onClose }) {
 
   // Class options - matching your project structure
   const classOptions = [
-    "CSE A",
-    "CSE B", 
-    "CSE C",
-    "CSE D",
-    "IT A",
-    "IT B",
-    "ECE A",
-    "ECE B",
-    "MECH A",
-    "MECH B",
-    "CIVIL A",
-    "CIVIL B"
+    "CSE-A",
+    "CSE-B", 
+    "CSE-C",
+    "CSE-D",
+    "IT-A",
+    "IT-B",
+    "ECE-A",
+    "ECE-B",
+    "MECH-A",
+    "MECH-B",
+    "CIVIL-A",
+    "CIVIL-B"
   ];
 
   const handleSendMessage = async (e) => {
@@ -41,6 +41,13 @@ export default function SendMessage({ isOpen, onClose }) {
 
     try {
       // Create notification for the selected class
+      console.log("Sending message to:", {
+        className: selectedClass,
+        title: title,
+        message: message,
+        facultyName: facultyName
+      });
+
       const response = await api.post("/notifications/broadcast-to-class", {
         className: selectedClass,
         title: title,
@@ -48,6 +55,8 @@ export default function SendMessage({ isOpen, onClose }) {
         facultyName: facultyName,
         type: "announcement"
       });
+
+      console.log("Response:", response.data);
 
       if (response.data.success) {
         setSuccess(true);
@@ -62,7 +71,11 @@ export default function SendMessage({ isOpen, onClose }) {
       }
     } catch (error) {
       console.error("Error sending message:", error);
-      alert(error.response?.data?.message || "Failed to send message. Please try again.");
+      console.error("Error response:", error.response);
+      console.error("Error data:", error.response?.data);
+      
+      const errorMessage = error.response?.data?.message || error.message || "Failed to send message. Please try again.";
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

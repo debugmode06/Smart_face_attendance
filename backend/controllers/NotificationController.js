@@ -233,18 +233,47 @@ export const broadcastToClass = async (req, res) => {
       });
     }
 
-    // Get all students in the specified class
-    const students = await Student.find({ 
-      classSection: className 
-    }).select('_id name');
+    console.log(`[broadcastToClass] Looking for students in class: ${className}`);
+
+    // Student model uses 'className' field (not classSection)
+    let students = await Student.find({ 
+      className: className 
+    }).select('_id name className');
+
+    console.log(`[broadcastToClass] Found ${students.length} students with exact match`);
+
+    // If no students found, try with hyphen instead of space
+    if (students.length === 0) {
+      const classNameWithHyphen = className.replace(' ', '-');
+      console.log(`[broadcastToClass] Trying with hyphen: ${classNameWithHyphen}`);
+      students = await Student.find({ 
+        className: classNameWithHyphen 
+      }).select('_id name className');
+      console.log(`[broadcastToClass] Found ${students.length} students with hyphen`);
+    }
+
+    // If still no students, try with space instead of hyphen
+    if (students.length === 0) {
+      const classNameWithSpace = className.replace('-', ' ');
+      console.log(`[broadcastToClass] Trying with space: ${classNameWithSpace}`);
+      students = await Student.find({ 
+        className: classNameWithSpace 
+      }).select('_id name className');
+      console.log(`[broadcastToClass] Found ${students.length} students with space`);
+    }
 
     if (students.length === 0) {
+      // Log all unique classNames in database for debugging
+      const allClasses = await Student.distinct('className');
+      console.log('[broadcastToClass] Available classes in database:', allClasses);
+      
       return res.status(404).json({
         success: false,
-        message: `No students found in class: ${className}`
+        message: `No students found in class: ${className}. Available classes: ${allClasses.join(', ')}`
       });
     }
 
+    console.log(`[broadcastToClass] Sending notifications to ${students.length} students`);
     const userIds = students.map(student => student._id.toString());
 
     const notificationData = {
