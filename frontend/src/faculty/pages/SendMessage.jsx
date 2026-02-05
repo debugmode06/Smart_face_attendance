@@ -40,14 +40,6 @@ export default function SendMessage({ isOpen, onClose }) {
     setSuccess(false);
 
     try {
-      // Create notification for the selected class
-      console.log("Sending message to:", {
-        className: selectedClass,
-        title: title,
-        message: message,
-        facultyName: facultyName
-      });
-
       const response = await api.post("/notifications/broadcast-to-class", {
         className: selectedClass,
         title: title,
@@ -55,8 +47,6 @@ export default function SendMessage({ isOpen, onClose }) {
         facultyName: facultyName,
         type: "announcement"
       });
-
-      console.log("Response:", response.data);
 
       if (response.data.success) {
         setSuccess(true);
@@ -70,9 +60,7 @@ export default function SendMessage({ isOpen, onClose }) {
         }, 2000);
       }
     } catch (error) {
-      console.error("Error sending message:", error);
-      console.error("Error response:", error.response);
-      console.error("Error data:", error.response?.data);
+      console.error("Error sending message:", error.response?.data || error.message);
       
       const errorMessage = error.response?.data?.message || error.message || "Failed to send message. Please try again.";
       alert(errorMessage);
