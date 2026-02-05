@@ -12,20 +12,20 @@ export default function SendMessage({ isOpen, onClose }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const facultyName = user.name || "Faculty";
 
-  // Class options - matching your project structure
+  // Class options - matching your database format (with space, not hyphen)
   const classOptions = [
-    "CSE-A",
-    "CSE-B", 
-    "CSE-C",
-    "CSE-D",
-    "IT-A",
-    "IT-B",
-    "ECE-A",
-    "ECE-B",
-    "MECH-A",
-    "MECH-B",
-    "CIVIL-A",
-    "CIVIL-B"
+    "CSE A",
+    "CSE B", 
+    "CSE C",
+    "CSE D",
+    "IT A",
+    "IT B",
+    "ECE A",
+    "ECE B",
+    "MECH A",
+    "MECH B",
+    "CIVIL A",
+    "CIVIL B"
   ];
 
   const handleSendMessage = async (e) => {
