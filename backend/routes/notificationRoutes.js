@@ -27,6 +27,18 @@ router.delete('/:notificationId', notificationController.deleteNotification);
 // Broadcast to specific class (Faculty)
 router.post('/broadcast-to-class', notificationController.broadcastToClass);
 
+// Test endpoint to verify route is accessible
+router.get('/test-broadcast', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Broadcast route is working!',
+    endpoint: '/api/notifications/broadcast-to-class',
+    method: 'POST',
+    requiredFields: ['className', 'title', 'message'],
+    optionalFields: ['facultyName', 'type']
+  });
+});
+
 // Broadcast to all (Admin)
 router.post('/broadcast-to-all', notificationController.broadcastToAll);
 
