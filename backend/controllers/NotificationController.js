@@ -226,6 +226,17 @@ export const broadcastToClass = async (req, res) => {
   try {
     const { className, title, message, facultyName, type = 'announcement' } = req.body;
 
+    // ============================================
+    // DEBUG: Log incoming request
+    // ============================================
+    console.log('\n=== BROADCAST TO CLASS REQUEST ===');
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+    console.log('className:', className);
+    console.log('title:', title);
+    console.log('message:', message);
+    console.log('facultyName:', facultyName);
+    console.log('===================================\n');
+
     if (!className || !title || !message) {
       return res.status(400).json({
         success: false,
@@ -233,63 +244,84 @@ export const broadcastToClass = async (req, res) => {
       });
     }
 
-    console.log(`[broadcastToClass] Looking for students in class: ${className}`);
-
-    // Student model uses 'className' field
+    // ============================================
+    // STRATEGY 1: Exact match on className field
+    // ============================================
+    console.log(`[Strategy 1] Exact match: "${className}"`);
     let students = await Student.find({ 
       className: className 
     }).select('_id name className department');
+    console.log(`[Strategy 1] Found ${students.length} students`);
 
-    console.log(`[broadcastToClass] Found ${students.length} students with exact match`);
-
-    // If no students found, try with hyphen instead of space
+    // ============================================
+    // STRATEGY 2: Case-insensitive regex match
+    // ============================================
     if (students.length === 0) {
-      const classNameWithHyphen = className.replace(' ', '-');
-      console.log(`[broadcastToClass] Trying with hyphen: ${classNameWithHyphen}`);
+      console.log(`[Strategy 2] Case-insensitive regex match`);
+      const regex = new RegExp(`^${className.trim()}$`, 'i');
+      students = await Student.find({ 
+        className: { $regex: regex }
+      }).select('_id name className department');
+      console.log(`[Strategy 2] Found ${students.length} students`);
+    }
+
+    // ============================================
+    // STRATEGY 3: Try with hyphen instead of space
+    // ============================================
+    if (students.length === 0 && className.includes(' ')) {
+      const classNameWithHyphen = className.replace(/\s+/g, '-');
+      console.log(`[Strategy 3] Trying hyphen format: "${classNameWithHyphen}"`);
       students = await Student.find({ 
         className: classNameWithHyphen 
       }).select('_id name className department');
-      console.log(`[broadcastToClass] Found ${students.length} students with hyphen`);
+      console.log(`[Strategy 3] Found ${students.length} students`);
     }
 
-    // If still no students, try with space instead of hyphen
-    if (students.length === 0) {
-      const classNameWithSpace = className.replace('-', ' ');
-      console.log(`[broadcastToClass] Trying with space: ${classNameWithSpace}`);
+    // ============================================
+    // STRATEGY 4: Try with space instead of hyphen
+    // ============================================
+    if (students.length === 0 && className.includes('-')) {
+      const classNameWithSpace = className.replace(/-/g, ' ');
+      console.log(`[Strategy 4] Trying space format: "${classNameWithSpace}"`);
       students = await Student.find({ 
         className: classNameWithSpace 
       }).select('_id name className department');
-      console.log(`[broadcastToClass] Found ${students.length} students with space`);
+      console.log(`[Strategy 4] Found ${students.length} students`);
     }
 
-    // If STILL no students, try partial match on department (e.g., "CSE B" -> find dept:"CSE")
+    // ============================================
+    // STRATEGY 5: Partial match on department
+    // ============================================
     if (students.length === 0) {
-      const parts = className.split(' ');
+      const parts = className.trim().split(/[\s-]+/);
       if (parts.length >= 1) {
-        const dept = parts[0]; // e.g., "CSE" from "CSE B"
-        console.log(`[broadcastToClass] Trying department match: ${dept}`);
+        const dept = parts[0];
+        console.log(`[Strategy 5] Department match: "${dept}"`);
         students = await Student.find({ 
-          department: dept
+          department: new RegExp(`^${dept}$`, 'i')
         }).select('_id name className department');
-        console.log(`[broadcastToClass] Found ${students.length} students by department`);
+        console.log(`[Strategy 5] Found ${students.length} students`);
         
         if (students.length > 0) {
-          console.log(`[broadcastToClass] Warning: Sending to ALL students in ${dept} department (className field may not be set)`);
+          console.log(`[Strategy 5] ⚠️  Sending to ALL ${dept} students (className not matched)`);
         }
       }
     }
 
+    // ============================================
+    // NO STUDENTS FOUND - Return detailed error
+    // ============================================
     if (students.length === 0) {
-      // Log all unique classNames and departments in database for debugging
       const allClasses = await Student.distinct('className');
       const allDepts = await Student.distinct('department');
       const totalStudents = await Student.countDocuments();
       
-      console.log('[broadcastToClass] Available classes in database:', allClasses);
-      console.log('[broadcastToClass] Available departments:', allDepts);
-      console.log('[broadcastToClass] Total students in database:', totalStudents);
+      console.log('\n=== DEBUG: NO STUDENTS FOUND ===');
+      console.log('Total students in DB:', totalStudents);
+      console.log('Available classNames:', allClasses);
+      console.log('Available departments:', allDepts);
+      console.log('================================\n');
       
-      // If no students at all, return different error
       if (totalStudents === 0) {
         return res.status(404).json({
           success: false,
@@ -297,13 +329,29 @@ export const broadcastToClass = async (req, res) => {
         });
       }
       
+      const availableClasses = allClasses.filter(c => c && c.trim());
       return res.status(404).json({
         success: false,
-        message: `No students found for "${className}". Available: ${allClasses.filter(c => c).length > 0 ? allClasses.filter(c => c).join(', ') : `Departments: ${allDepts.join(', ')}`}`
+        message: `No students found for "${className}".`,
+        debug: {
+          searchedFor: className,
+          totalStudents: totalStudents,
+          availableClasses: availableClasses.length > 0 ? availableClasses : null,
+          availableDepartments: allDepts.length > 0 ? allDepts : null
+        }
       });
     }
 
-    console.log(`[broadcastToClass] Sending notifications to ${students.length} students`);
+    // ============================================
+    // SUCCESS - Create notifications
+    // ============================================
+    console.log(`\n✅ SUCCESS: Sending to ${students.length} students`);
+    console.log('Student details:', students.map(s => ({
+      name: s.name,
+      className: s.className,
+      department: s.department
+    })));
+    
     const userIds = students.map(student => student._id.toString());
 
     const notificationData = {
@@ -314,17 +362,20 @@ export const broadcastToClass = async (req, res) => {
       refId: null
     };
 
-    // Create notifications for all students
     await Notification.createForUsers(userIds, notificationData);
+
+    console.log(`✅ Notifications created successfully\n`);
 
     res.status(200).json({
       success: true,
       message: `Message sent to ${students.length} students in ${className}`,
       count: students.length,
-      className: className
+      className: className,
+      students: students.map(s => s.name)
     });
   } catch (error) {
-    console.error('Broadcast to class error:', error);
+    console.error('\n❌ ERROR in broadcastToClass:', error);
+    console.error('Error stack:', error.stack);
     res.status(500).json({
       success: false,
       message: 'Failed to send message to class',

@@ -40,6 +40,13 @@ export default function SendMessage({ isOpen, onClose }) {
     setSuccess(false);
 
     try {
+      console.log('=== SENDING MESSAGE ===');
+      console.log('Selected Class:', selectedClass);
+      console.log('Title:', title);
+      console.log('Message:', message);
+      console.log('Faculty Name:', facultyName);
+      console.log('======================');
+
       const response = await api.post("/notifications/broadcast-to-class", {
         className: selectedClass,
         title: title,
@@ -48,11 +55,18 @@ export default function SendMessage({ isOpen, onClose }) {
         type: "announcement"
       });
 
+      console.log('✅ SUCCESS Response:', response.data);
+
       if (response.data.success) {
         setSuccess(true);
         setTitle("");
         setMessage("");
         setSelectedClass("");
+        
+        // Show success details
+        const studentNames = response.data.students || [];
+        const countMsg = `Message sent to ${response.data.count} student${response.data.count > 1 ? 's' : ''}`;
+        console.log(countMsg, studentNames);
         
         setTimeout(() => {
           setSuccess(false);
@@ -60,9 +74,34 @@ export default function SendMessage({ isOpen, onClose }) {
         }, 2000);
       }
     } catch (error) {
-      console.error("Error sending message:", error.response?.data || error.message);
+      console.error('❌ ERROR sending message:', error);
       
-      const errorMessage = error.response?.data?.message || error.message || "Failed to send message. Please try again.";
+      // Extract detailed error information
+      const errorData = error.response?.data;
+      let errorMessage = 'Failed to send message. Please try again.';
+      
+      if (errorData) {
+        console.error('Error details:', errorData);
+        
+        // Show detailed error with available classes
+        if (errorData.debug) {
+          const debug = errorData.debug;
+          errorMessage = errorData.message + '\n\n';
+          
+          if (debug.availableClasses && debug.availableClasses.length > 0) {
+            errorMessage += 'Available classes: ' + debug.availableClasses.join(', ');
+          } else if (debug.availableDepartments && debug.availableDepartments.length > 0) {
+            errorMessage += 'Available departments: ' + debug.availableDepartments.join(', ');
+          }
+          
+          errorMessage += '\n\nTotal students in database: ' + debug.totalStudents;
+        } else {
+          errorMessage = errorData.message || errorMessage;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       alert(errorMessage);
     } finally {
       setLoading(false);
