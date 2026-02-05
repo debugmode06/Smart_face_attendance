@@ -1,5 +1,5 @@
 import Notification from '../models/Notification.js';
-import Student from '../models/Student.js';
+import User from '../models/User.js';
 
 // Create notification(s)
 export const createNotification = async (req, res) => {
@@ -191,9 +191,10 @@ export const deleteNotification = async (req, res) => {
 // Helper: Create attendance notification for students
 export const createAttendanceNotification = async (classSection, attendanceId, subject, facultyName) => {
   try {
-    // Get all students in the class
-    const students = await Student.find({ 
-      classSection: classSection 
+    // Get all students in the class (FIXED: Use User model with role filter)
+    const students = await User.find({ 
+      role: 'student',
+      className: classSection 
     }).select('_id');
 
     if (students.length === 0) {
@@ -246,8 +247,10 @@ export const broadcastToClass = async (req, res) => {
 
     console.log(`[Query] Looking for className: "${normalizedClassName}"`);
 
-    // Try exact match first
-    let students = await Student.find({ 
+    // CRITICAL FIX: Query User model with role filter
+    // This ensures ONLY students are counted (not faculty or admin)
+    let students = await User.find({ 
+      role: 'student',
       className: normalizedClassName
     }).select('_id name className department');
 
@@ -259,7 +262,10 @@ export const broadcastToClass = async (req, res) => {
       if (normalizedClassName.includes(' ')) {
         const withHyphen = normalizedClassName.replace(/\s+/g, '-');
         console.log(`[Query] Trying with hyphen: "${withHyphen}"`);
-        students = await Student.find({ className: withHyphen }).select('_id name className department');
+        students = await User.find({ 
+          role: 'student',
+          className: withHyphen 
+        }).select('_id name className department');
         console.log(`[Query] Hyphen match found ${students.length} students`);
       }
       
@@ -267,15 +273,20 @@ export const broadcastToClass = async (req, res) => {
       if (students.length === 0 && normalizedClassName.includes('-')) {
         const withSpace = normalizedClassName.replace(/-/g, ' ');
         console.log(`[Query] Trying with space: "${withSpace}"`);
-        students = await Student.find({ className: withSpace }).select('_id name className department');
+        students = await User.find({ 
+          role: 'student',
+          className: withSpace 
+        }).select('_id name className department');
         console.log(`[Query] Space match found ${students.length} students`);
       }
     }
 
     // If still no students found, return detailed error
     if (students.length === 0) {
-      const allClasses = await Student.distinct('className');
-      const totalStudents = await Student.countDocuments();
+      // Get distinct classes for STUDENTS ONLY
+      const allClasses = await User.distinct('className', { role: 'student' });
+      // Count STUDENTS ONLY (not faculty or admin)
+      const totalStudents = await User.countDocuments({ role: 'student' });
       
       console.log('[Error] No students found');
       console.log('Available classes:', allClasses);
@@ -346,13 +357,15 @@ export const broadcastToAll = async (req, res) => {
       });
     }
 
-    // Get all students
-    const students = await Student.find({}).select('_id');
+    // Get all students (FIXED: Use User model with role filter)
+    const students = await User.find({ role: 'student' }).select('_id');
     const studentIds = students.map(s => s._id.toString());
 
-    // Get all faculty (you'll need to import Faculty model)
-    // For now, just sending to students
+    // Get all faculty (FIXED: Use User model with role filter)
+    const faculty = await User.find({ role: 'faculty' }).select('_id');
+    const facultyIds = faculty.map(f => f._id.toString());
     
+    // Create notifications for students
     const notificationData = {
       role: 'student',
       title: `📢 ${title}`,
@@ -361,13 +374,27 @@ export const broadcastToAll = async (req, res) => {
       refId: null
     };
 
-    // Create notifications for all students
     await Notification.createForUsers(studentIds, notificationData);
+    
+    // Create notifications for faculty
+    const facultyNotificationData = {
+      role: 'faculty',
+      title: `📢 ${title}`,
+      message: `${message}${senderName ? ` - ${senderName}` : ''}`,
+      type: type,
+      refId: null
+    };
+    
+    await Notification.createForUsers(facultyIds, facultyNotificationData);
 
     res.status(200).json({
       success: true,
-      message: `Message broadcast to ${studentIds.length} users`,
-      count: studentIds.length
+      message: `Message broadcast to ${studentIds.length + facultyIds.length} users`,
+      count: studentIds.length + facultyIds.length,
+      breakdown: {
+        students: studentIds.length,
+        faculty: facultyIds.length
+      }
     });
   } catch (error) {
     console.error('Broadcast to all error:', error);
